@@ -12,6 +12,8 @@ defmodule SpaceAgeApi.Repo.Migrations.CreatePlayers do
       add :faction_name, :string
       add :advancement_level, :integer
       add :research, :map
+      add :station_storage, :map
+      add :playtime, :integer
 
       timestamps()
     end
@@ -19,5 +21,6 @@ defmodule SpaceAgeApi.Repo.Migrations.CreatePlayers do
     create unique_index(:players, [:steamid])
     create index(:players, [:faction_name])
     create index(:players, [:score])
+    create index(:players, [:playtime])
   end
 end
