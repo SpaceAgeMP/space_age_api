@@ -15,4 +15,11 @@ defmodule SpaceAgeApiWeb.ErrorView do
             error: "Bad request",
         }
     end
+
+    def render("500.json", _) do
+        %{
+            ok: false,
+            error: "Internal server error",
+        }
+    end
 end
