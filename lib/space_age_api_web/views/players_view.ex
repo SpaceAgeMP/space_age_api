@@ -22,6 +22,7 @@ defmodule SpaceAgeApiWeb.PlayersView do
             credits: player.credits,
             faction_name: player.faction_name,
             is_faction_leader: player.is_faction_leader,
+            is_donator: player.is_donator,
             station_storage: player.station_storage,
             name: player.name,
             research: player.research,
