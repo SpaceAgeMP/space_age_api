@@ -7,11 +7,11 @@ defmodule SpaceAgeApi.Plug.Authenticate do
     """
     import Plug.Conn
     import Ecto.Query
-    alias SpaceAgeApi.Repo
     alias SpaceAgeApi.Models.Server
+    alias SpaceAgeApi.Repo
 
     def init(options), do: options
-  
+
     def call(conn, opts) do
         conn = parse_auth(conn)
         cond do

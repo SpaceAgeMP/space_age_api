@@ -2,12 +2,12 @@ defmodule SpaceAgeApiWeb.PlayersController do
     @moduledoc false
     use SpaceAgeApiWeb, :controller
     import Ecto.Query
-    alias SpaceAgeApi.Repo
     alias SpaceAgeApi.Models.Player
+    alias SpaceAgeApi.Repo
     alias SpaceAgeApi.Util
 
     plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:get_full, :upsert]
-  
+
     def list(conn, _params) do
         render(conn, "multi_public.json", players: Repo.all(from Player,
             order_by: [desc: :score],
@@ -36,7 +36,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
             |> select(^select)
         else
             query
-        end        
+        end
     end
 
     defp get_single(conn, params, template, select \\ nil) do
@@ -44,5 +44,4 @@ defmodule SpaceAgeApiWeb.PlayersController do
         player = Repo.one(build_query(steamid, select))
         single_or_404(conn, template, player)
     end
-  end
-  
+end

@@ -8,7 +8,7 @@ defmodule SpaceAgeApiWeb.Router do
 
   scope "/v1", SpaceAgeApiWeb do
     pipe_through :api
-  
+
     get "/players", PlayersController, :list
     get "/players/:steamid", PlayersController, :get
     get "/players/:steamid/full", PlayersController, :get_full

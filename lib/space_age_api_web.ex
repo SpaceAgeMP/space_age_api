@@ -22,8 +22,8 @@ defmodule SpaceAgeApiWeb do
       use Phoenix.Controller, namespace: SpaceAgeApiWeb
 
       import Plug.Conn
-      alias SpaceAgeApiWeb.Router.Helpers, as: Routes
       alias SpaceAgeApi.Repo
+      alias SpaceAgeApiWeb.Router.Helpers, as: Routes
 
       def single_or_404(conn, _template, nil) do
           conn

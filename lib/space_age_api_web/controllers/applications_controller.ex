@@ -2,10 +2,10 @@ defmodule SpaceAgeApiWeb.ApplicationsController do
     @moduledoc false
     use SpaceAgeApiWeb, :controller
     import Ecto.Query
-    alias SpaceAgeApi.Repo
     alias SpaceAgeApi.Models.Application
     alias SpaceAgeApi.Models.Player
-    
+    alias SpaceAgeApi.Repo
+
     plug SpaceAgeApi.Plug.Authenticate, [allow_server: true]
 
     def get_by_player(conn, params) do
@@ -38,7 +38,11 @@ defmodule SpaceAgeApiWeb.ApplicationsController do
         if application do
             player = Repo.one(from p in Player,
                 where: p.steamid == ^steamid)
-            changes = Player.changeset(player, %{steamid: steamid, faction_name: faction_name, is_faction_leader: false})
+            changes = Player.changeset(player, %{
+                steamid: steamid,
+                faction_name: faction_name,
+                is_faction_leader: false
+            })
             Repo.update!(changes)
             Repo.delete!(application)
         end

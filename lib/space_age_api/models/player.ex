@@ -22,6 +22,7 @@ defmodule SpaceAgeApi.Models.Player do
 
   @doc false
   def changeset(player, attrs) do
+    # credo:disable-for-lines:3
     player
     |> cast(attrs, [:name, :steamid, :credits, :score, :is_faction_leader, :alliance_membership_expiry, :faction_name, :advancement_level, :research, :playtime, :station_storage])
     |> validate_required([:name, :steamid, :credits, :score, :is_faction_leader, :alliance_membership_expiry, :faction_name, :advancement_level, :research, :playtime, :station_storage])
