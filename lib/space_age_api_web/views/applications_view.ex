@@ -1,4 +1,5 @@
 defmodule SpaceAgeApiWeb.ApplicationsView do
+    @moduledoc false
     use SpaceAgeApiWeb, :view
 
     def render("multi.json", %{applications: applications}) do

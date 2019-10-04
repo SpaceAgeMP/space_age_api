@@ -1,4 +1,5 @@
 defmodule SpaceAgeApiWeb.Router do
+  @moduledoc false
   use SpaceAgeApiWeb, :router
 
   pipeline :api do

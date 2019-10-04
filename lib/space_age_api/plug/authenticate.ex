@@ -1,4 +1,10 @@
 defmodule SpaceAgeApi.Plug.Authenticate do
+    @moduledoc """
+        Authentication and authorization module for the API
+        Accepts auth headers in the following format:
+        Server STATIC_TOKEN
+        Client JWT (not implemented)
+    """
     import Plug.Conn
     import Ecto.Query
     alias SpaceAgeApi.Repo
@@ -17,9 +23,9 @@ defmodule SpaceAgeApi.Plug.Authenticate do
     end
 
     def parse_auth(conn) do
-        authHeader = Keyword.get(conn.req_headers, :authorization)
-        if authHeader do
-            verify_auth_header(conn, authHeader)
+        auth_header = Keyword.get(conn.req_headers, :authorization)
+        if auth_header do
+            verify_auth_header(conn, auth_header)
         else
             conn
         end

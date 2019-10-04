@@ -1,4 +1,5 @@
 defmodule SpaceAgeApiWeb.PlayersController do
+    @moduledoc false
     use SpaceAgeApiWeb, :controller
     import Ecto.Query
     alias SpaceAgeApi.Repo

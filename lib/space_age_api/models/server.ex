@@ -1,4 +1,5 @@
 defmodule SpaceAgeApi.Models.Server do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
 

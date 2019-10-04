@@ -1,4 +1,5 @@
 defmodule SpaceAgeApiWeb.GoodiesController do
+    @moduledoc false
     use SpaceAgeApiWeb, :controller
 
     plug SpaceAgeApi.Plug.Authenticate, options: [allow_server: true]

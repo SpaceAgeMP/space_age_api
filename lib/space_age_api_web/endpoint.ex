@@ -1,4 +1,5 @@
 defmodule SpaceAgeApiWeb.Endpoint do
+  @moduledoc false
   use Phoenix.Endpoint, otp_app: :space_age_api
 
   # Code reloading can be explicitly enabled under the

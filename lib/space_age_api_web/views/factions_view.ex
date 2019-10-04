@@ -1,4 +1,5 @@
 defmodule SpaceAgeApiWeb.FactionsView do
+    @moduledoc false
     use SpaceAgeApiWeb, :view
 
     def render("multi_public.json", %{factions: factions}) do

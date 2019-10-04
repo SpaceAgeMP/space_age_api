@@ -1,4 +1,5 @@
 defmodule SpaceAgeApiWeb.PlayersView do
+    @moduledoc false
     use SpaceAgeApiWeb, :view
 
     def render("multi_public.json", %{players: players}) do
