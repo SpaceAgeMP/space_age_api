@@ -16,7 +16,7 @@ defmodule SpaceAgeApiWeb.ApplicationsController do
         single_or_404(conn, "single.json", application)
     end
 
-    def upsert_for_player(conn, params) do
+    def upsert(conn, params) do
         application = Application.changeset(%Application{}, params)
         changeset_perform_upsert_by_steamid(conn, application)
     end
