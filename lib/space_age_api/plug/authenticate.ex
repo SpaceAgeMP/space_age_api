@@ -23,7 +23,7 @@ defmodule SpaceAgeApi.Plug.Authenticate do
     end
 
     def parse_auth(conn) do
-        auth_header = Keyword.get(conn.req_headers, :authorization)
+        auth_header = get_req_header(conn, "authorization")
         if auth_header do
             verify_auth_header(conn, auth_header)
         else
