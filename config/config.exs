@@ -14,8 +14,13 @@ config :space_age_api,
 config :space_age_api, SpaceAgeApiWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "UoGzGzlE1NoIwH2K/ztS6C2lo+pIsTT0dtbCUJW3A3uQuKMjsNhNRu2buRWNtkMH",
-  render_errors: [view: SpaceAgeApiWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: SpaceAgeApi.PubSub, adapter: Phoenix.PubSub.PG2]
+  render_errors: [view: SpaceAgeApiWeb.ErrorView, accepts: ~w(html json)]
+
+# Configure quantum scheduler
+config :space_age_api, SpaceAgeApi.Scheduler,
+  jobs: [
+    {"* * * * *", {SpaceAgeApi.FactionsAggregator, :run, []}},
+  ]
 
 # Configures Elixir's Logger
 config :logger, :console,

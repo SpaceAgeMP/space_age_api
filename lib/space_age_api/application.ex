@@ -11,9 +11,7 @@ defmodule SpaceAgeApi.Application do
       # Start the Ecto repository
       SpaceAgeApi.Repo,
       # Start the endpoint when the application starts
-      SpaceAgeApiWeb.Endpoint
-      # Starts a worker by calling: SpaceAgeApi.Worker.start_link(arg)
-      # {SpaceAgeApi.Worker, arg},
+      SpaceAgeApiWeb.Endpoint,
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
