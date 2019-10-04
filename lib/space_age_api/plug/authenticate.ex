@@ -31,7 +31,10 @@ defmodule SpaceAgeApi.Plug.Authenticate do
         end
     end
 
-    defp verify_auth_header(conn, auth) do
+    defp verify_auth_header(conn, []) do
+        make_conn_badauth(conn, "none")
+    end
+    defp verify_auth_header(conn, [auth]) do
         [type, token] = String.split(auth, " ", trim: true, parts: 2)
         if type && token do
             verify_auth_header(conn, String.downcase(type), token)
