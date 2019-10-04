@@ -33,9 +33,11 @@ defmodule SpaceAgeApiWeb.ApplicationsController do
                 where: a.steamid == ^steamid and a.faction_name == ^faction_name)
 
         if application do
-            player = %Player{steamid: steamid, faction_name: faction_name, is_faction_leader: false}
-            Repo.update(player)
-            Repo.delete(application)
+            player = Repo.one(from p in Player,
+                where: p.steamid == ^steamid)
+            changes = Player.changeset(player, %{steamid: steamid, faction_name: faction_name, is_faction_leader: false})
+            Repo.update!(changes)
+            Repo.delete!(application)
         end
 
         json(conn, %{ok: true})

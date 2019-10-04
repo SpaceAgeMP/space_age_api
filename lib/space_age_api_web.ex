@@ -37,7 +37,7 @@ defmodule SpaceAgeApiWeb do
 
       def changeset_perform_upsert_by_steamid(conn, changeset) do
         if changeset.valid? do
-          Repo.insert(changeset, on_conflict: :replace_all_except_primary_key, conflict_target: :steamid)
+          Repo.insert!(changeset, on_conflict: :replace_all_except_primary_key, conflict_target: :steamid)
           json(conn, %{ok: true})
         else
           conn

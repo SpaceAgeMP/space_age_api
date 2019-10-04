@@ -21,6 +21,6 @@ defmodule SpaceAgeApiWeb.Router do
     get "/players/:steamid/application", ApplicationsController, :get_by_player
     put "/players/:steamid/application", ApplicationsController, :upsert_for_player
     get "/factions/:faction_name/applications", ApplicationsController, :list_by_faction
-    post "/factions/:faction_name/applications/:steamid", ApplicationsController, :accept_by_faction_for_player
+    post "/factions/:faction_name/applications/:steamid/accept", ApplicationsController, :accept_by_faction_for_player
   end
 end
