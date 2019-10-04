@@ -3,7 +3,6 @@ defmodule SpaceAgeApiWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug SpaceAgeApi.Plug.Authenticate
   end
 
   scope "/v1", SpaceAgeApiWeb do

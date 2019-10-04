@@ -4,6 +4,8 @@ defmodule SpaceAgeApiWeb.ApplicationsController do
     alias SpaceAgeApi.Repo
     alias SpaceAgeApi.Models.Application
     alias SpaceAgeApi.Models.Player
+    
+    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true]
 
     def get_by_player(conn, params) do
         steamid = params["steamid"]

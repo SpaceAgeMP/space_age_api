@@ -4,6 +4,8 @@ defmodule SpaceAgeApiWeb.PlayersController do
     alias SpaceAgeApi.Repo
     alias SpaceAgeApi.Models.Player
     alias SpaceAgeApi.Util
+
+    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:get_full, :upsert]
   
     def list(conn, _params) do
         render(conn, "multi_public.json", players: Repo.all(from Player,
@@ -18,6 +20,11 @@ defmodule SpaceAgeApiWeb.PlayersController do
 
     def get(conn, params) do
         get_single(conn, params, "single.json", [:steamid, :name, :score, :playtime])
+    end
+
+    def upsert(conn, params) do
+        player = Player.changeset(%Player{}, Util.map_decimal_to_integer(params))
+        changeset_perform_upsert_by_steamid(conn, player)
     end
 
     defp build_query(steamid, select) do
@@ -35,11 +42,6 @@ defmodule SpaceAgeApiWeb.PlayersController do
         steamid = params["steamid"]
         player = Repo.one(build_query(steamid, select))
         single_or_404(conn, template, player)
-    end
-
-    def upsert(conn, params) do
-        player = Player.changeset(%Player{}, Util.map_decimal_to_integer(params))
-        changeset_perform_upsert_by_steamid(conn, player)
     end
   end
   
