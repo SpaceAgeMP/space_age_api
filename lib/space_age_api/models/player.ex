@@ -2,6 +2,7 @@ defmodule SpaceAgeApi.Models.Player do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @primary_key false
   schema "players" do
     field :advancement_level, :integer
     field :alliance_membership_expiry, :integer
@@ -13,7 +14,7 @@ defmodule SpaceAgeApi.Models.Player do
     field :research, :map
     field :station_storage, :map
     field :score, :integer
-    field :steamid, :string
+    field :steamid, :string, primary_key: true
 
     timestamps()
   end
@@ -23,6 +24,5 @@ defmodule SpaceAgeApi.Models.Player do
     player
     |> cast(attrs, [:name, :steamid, :credits, :score, :is_faction_leader, :alliance_membership_expiry, :faction_name, :advancement_level, :research, :playtime, :station_storage])
     |> validate_required([:name, :steamid, :credits, :score, :is_faction_leader, :alliance_membership_expiry, :faction_name, :advancement_level, :research, :playtime, :station_storage])
-    |> unique_constraint(:steamid)
   end
 end

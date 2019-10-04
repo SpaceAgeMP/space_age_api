@@ -3,6 +3,7 @@ defmodule SpaceAgeApiWeb.ApplicationsController do
     import Ecto.Query
     alias SpaceAgeApi.Repo
     alias SpaceAgeApi.Models.Application
+    alias SpaceAgeApi.Models.Player
 
     def get_by_player(conn, params) do
         steamid = params["steamid"]
@@ -22,5 +23,21 @@ defmodule SpaceAgeApiWeb.ApplicationsController do
         applications = Repo.all(from a in Application,
                                 where: a.faction_name == ^faction_name)
         render(conn, "multi.json", applications: applications)
+    end
+
+    def accept_by_faction_for_player(conn, params) do
+        faction_name = params["faction_name"]
+        steamid = params["steamid"]
+
+        application = Repo.one(from a in Application,
+                where: a.steamid == ^steamid and a.faction_name == ^faction_name)
+
+        if application do
+            player = %Player{steamid: steamid, faction_name: faction_name, is_faction_leader: false}
+            Repo.update(player)
+            Repo.delete(application)
+        end
+
+        json(conn, %{ok: true})
     end
 end
