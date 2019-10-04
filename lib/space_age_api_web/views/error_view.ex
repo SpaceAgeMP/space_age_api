@@ -5,14 +5,14 @@ defmodule SpaceAgeApiWeb.ErrorView do
     def render("404.json", _) do
         %{
             ok: false,
-            error: 'Not found',
+            error: "Not found",
         }
     end
 
     def render("400.json", _) do
         %{
             ok: false,
-            error: 'Bad request',
+            error: "Bad request",
         }
     end
 end
