@@ -42,7 +42,7 @@ defmodule SpaceAgeApiWeb do
         else
           conn
           |> put_status(400)
-          |> json(%{ok: false, errors: ["Validation errors TODO"]})
+          |> json(%{ok: false, errors: changeset.errors})
         end
       end
     end
