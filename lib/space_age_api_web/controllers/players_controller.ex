@@ -3,6 +3,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
     import Ecto.Query
     alias SpaceAgeApi.Repo
     alias SpaceAgeApi.Models.Player
+    alias SpaceAgeApi.Util
   
     def list(conn, _params) do
         render(conn, "multi_public.json", players: Repo.all(from Player,
@@ -16,7 +17,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
     end
 
     def get(conn, params) do
-        get_single(conn, params, "single_public.json", [:steamid, :name, :score, :playtime])
+        get_single(conn, params, "single.json", [:steamid, :name, :score, :playtime])
     end
 
     defp build_query(steamid, select) do
@@ -32,21 +33,13 @@ defmodule SpaceAgeApiWeb.PlayersController do
 
     defp get_single(conn, params, template, select \\ nil) do
         steamid = params["steamid"]
-
         player = Repo.one(build_query(steamid, select))
-
-        if player do
-            render(conn, template, player: player)
-        else
-            conn
-            |> put_resp_content_type("application/json")
-            |> send_resp(404, "{}")
-        end
+        single_or_404(conn, template, player)
     end
 
     def upsert(conn, params) do
-        Repo.insert(struct(Player, params), on_conflict: :replace_all_except_primary_key, conflict_target: :steamid)
-        json(conn, %{ok: true})
+        player = Player.changeset(%Player{}, Util.map_decimal_to_integer(params))
+        changeset_perform_upsert_by_steamid(conn, player)
     end
   end
   

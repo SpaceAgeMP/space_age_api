@@ -5,11 +5,11 @@ defmodule SpaceAgeApiWeb.PlayersView do
         Enum.map(players, &player_public/1)
     end
 
-    def render("single_public.json", %{player: player}) do
+    def render("single.json", %{data: player}) do
         player_public(player)
     end
 
-    def render("single_full.json", %{player: player}) do
+    def render("single_full.json", %{data: player}) do
         player_all(player)
     end
 

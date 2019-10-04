@@ -9,19 +9,18 @@ defmodule SpaceAgeApiWeb.ApplicationsController do
         application = Repo.one(from a in Application,
                                 where: a.steamid == ^steamid)
 
-        if application do
-            render(conn, "single.json", application: application)
-        else
-            conn
-            |> put_resp_content_type("application/json")
-            |> send_resp(404, "{}")
-        end
+        single_or_404(conn, "single.json", application)
+    end
+
+    def upsert_for_player(conn, params) do
+        application = Application.changeset(%Application{}, params)
+        changeset_perform_upsert_by_steamid(conn, application)
     end
 
     def list_by_faction(conn, params) do
         faction_name = params["faction_name"]
         applications = Repo.all(from a in Application,
                                 where: a.faction_name == ^faction_name)
-        render(conn, "list.json", applications: applications)
+        render(conn, "multi.json", applications: applications)
     end
 end

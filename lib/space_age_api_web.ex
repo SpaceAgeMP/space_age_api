@@ -23,6 +23,28 @@ defmodule SpaceAgeApiWeb do
 
       import Plug.Conn
       alias SpaceAgeApiWeb.Router.Helpers, as: Routes
+      alias SpaceAgeApi.Repo
+
+      def single_or_404(conn, _template, nil) do
+          conn
+          |> put_resp_content_type("application/json")
+          |> send_resp(404, "{}")
+      end
+
+      def single_or_404(conn, template, data) do
+          render(conn, template, data: data)
+      end
+
+      def changeset_perform_upsert_by_steamid(conn, changeset) do
+        if changeset.valid? do
+          Repo.insert(changeset, on_conflict: :replace_all_except_primary_key, conflict_target: :steamid)
+          json(conn, %{ok: true})
+        else
+          conn
+          |> put_status(400)
+          |> json(%{ok: false, errors: changeset.errors})
+        end
+      end
     end
   end
 
