@@ -36,7 +36,9 @@ defmodule SpaceAgeApiWeb.PlayersView do
             name: player.name,
             playtime: player.playtime,
             steamid: player.steamid,
-            score: player.score
+            score: player.score,
+            faction_name: player.faction_name,
+            is_faction_leader: player.is_faction_leader,
         }
     end
 end
