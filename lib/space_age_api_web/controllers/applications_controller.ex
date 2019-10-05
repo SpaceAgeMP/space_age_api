@@ -13,7 +13,9 @@ defmodule SpaceAgeApiWeb.ApplicationsController do
     def get_by_player(conn, params) do
         steamid = params["steamid"]
         application = Repo.one(from a in Application,
-                                where: a.steamid == ^steamid)
+                                where: a.steamid == ^steamid,
+                                join: p in Player, on: p.steamid == a.steamid,
+                                select: [a, p])
 
         single_or_404(conn, "single.json", application)
     end
@@ -26,7 +28,9 @@ defmodule SpaceAgeApiWeb.ApplicationsController do
     def list_by_faction(conn, params) do
         faction_name = params["faction_name"]
         applications = Repo.all(from a in Application,
-                                where: a.faction_name == ^faction_name)
+                                where: a.faction_name == ^faction_name,
+                                join: p in Player, on: p.steamid == a.steamid,
+                                select: [a, p])
         render(conn, "multi.json", applications: applications)
     end
 
