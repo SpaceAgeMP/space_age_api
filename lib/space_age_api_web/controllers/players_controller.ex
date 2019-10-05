@@ -9,10 +9,11 @@ defmodule SpaceAgeApiWeb.PlayersController do
     plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:get_full, :upsert]
 
     def list(conn, _params) do
-        render(conn, "multi_public.json", players: Repo.all(from Player,
+        render(conn, "multi_public.json", players: Repo.all(from p in Player,
             order_by: [desc: :score],
             select: [:steamid, :name, :score, :playtime],
-            limit: 30))
+            where: p.steamid != "STEAM_0:0:0",
+            limit: 50))
     end
 
     def get_full(conn, params) do
