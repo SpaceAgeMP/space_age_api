@@ -18,7 +18,7 @@ defmodule SpaceAgeApi.Plug.Authenticate do
             conn.halted -> conn
             opts[:allow_anonymous] -> conn
             opts[:allow_server] && conn.assigns[:auth_server] -> conn
-            opts[:allow_client] && conn.assigns[:auth_client] -> verify_client_auth(conn, opts)
+            opts[:allow_client] && conn.assigns[:auth_client] && verify_client_auth(conn, opts) -> conn
             true -> make_conn_unauth(conn)
         end
     end
@@ -28,10 +28,10 @@ defmodule SpaceAgeApi.Plug.Authenticate do
         faction = conn.params["faction_name"]
         auth = conn.assigns[:auth_client]
         cond do
-            opts[:require_steamid] && steamid != auth.steamid -> make_conn_unauth(conn)
-            opts[:require_faction_name] && faction != auth.faction_name -> make_conn_unauth(conn)
-            opts[:require_faction_leader] && !auth.is_faction_leader -> make_conn_unauth(conn)
-            true -> conn
+            opts[:require_steamid] && steamid != auth.steamid -> false
+            opts[:require_faction_name] && faction != auth.faction_name -> false
+            opts[:require_faction_leader] && !auth.is_faction_leader -> false
+            true -> true
         end
     end
 
