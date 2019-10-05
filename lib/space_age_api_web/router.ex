@@ -6,7 +6,7 @@ defmodule SpaceAgeApiWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/v1", SpaceAgeApiWeb do
+  scope "/v2", SpaceAgeApiWeb do
     pipe_through :api
 
     get "/players", PlayersController, :list
