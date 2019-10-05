@@ -15,7 +15,7 @@ defmodule SpaceAgeApiWeb.Router do
     put "/players/:steamid", PlayersController, :upsert
 
     get "/players/:steamid/goodies", GoodiesController, :list
-    delete "/players/:steamid/goodies", GoodiesController, :delete
+    delete "/players/:steamid/goodies/:id", GoodiesController, :delete
 
     get "/factions", FactionsController, :list
 
