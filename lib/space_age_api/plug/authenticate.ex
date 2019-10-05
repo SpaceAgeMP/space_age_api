@@ -15,6 +15,7 @@ defmodule SpaceAgeApi.Plug.Authenticate do
     def call(conn, opts) do
         conn = parse_auth(conn)
         cond do
+            conn.halted -> conn
             opts[:allow_anonymous] -> conn
             opts[:allow_server] && conn.assigns[:auth_server] -> conn
             opts[:allow_client] && conn.assigns[:auth_client] -> conn
