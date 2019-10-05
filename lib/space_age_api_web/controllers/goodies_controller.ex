@@ -9,7 +9,7 @@ defmodule SpaceAgeApiWeb.GoodiesController do
     def list(conn, params) do
         steamid = params["steamid"]
 
-        render(conn, "multi.json",  players: Repo.all(from g in Goodie,
+        render(conn, "multi.json",  goodies: Repo.all(from g in Goodie,
             where: g.steamid == ^steamid))
     end
 
