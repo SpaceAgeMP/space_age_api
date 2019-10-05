@@ -2,7 +2,7 @@ defmodule SpaceAgeApiWeb.GoodiesController do
     @moduledoc false
     use SpaceAgeApiWeb, :controller
 
-    plug SpaceAgeApi.Plug.Authenticate, options: [allow_server: true]
+    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true]
 
     def list(conn, _params) do
         json(conn, %{})
