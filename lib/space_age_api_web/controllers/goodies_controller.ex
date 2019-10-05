@@ -4,7 +4,8 @@ defmodule SpaceAgeApiWeb.GoodiesController do
     import Ecto.Query
     alias SpaceAgeApi.Models.Goodie
 
-    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true]
+    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true, allow_client: true, require_steamid: true] when action in [:list]
+    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:delete]
 
     def list(conn, params) do
         steamid = params["steamid"]

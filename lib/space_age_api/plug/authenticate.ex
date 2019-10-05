@@ -18,12 +18,24 @@ defmodule SpaceAgeApi.Plug.Authenticate do
             conn.halted -> conn
             opts[:allow_anonymous] -> conn
             opts[:allow_server] && conn.assigns[:auth_server] -> conn
-            opts[:allow_client] && conn.assigns[:auth_client] -> conn
+            opts[:allow_client] && conn.assigns[:auth_client] -> verify_client_auth(conn, opts)
             true -> make_conn_unauth(conn)
         end
     end
 
-    def parse_auth(conn) do
+    defp verify_client_auth(conn, opts) do
+        steamid = conn.params["steamid"]
+        faction = conn.params["faction_name"]
+        auth = conn.assigns[:auth_client]
+        cond do
+            opts[:require_steamid] && steamid != auth.steamid -> make_conn_unauth(conn)
+            opts[:require_faction_name] && faction != auth.faction_name -> make_conn_unauth(conn)
+            opts[:require_faction_leader] && !auth.is_faction_leader -> make_conn_unauth(conn)
+            true -> conn
+        end
+    end
+
+    defp parse_auth(conn) do
         auth_header = get_req_header(conn, "authorization")
         if auth_header do
             verify_auth_header(conn, auth_header)

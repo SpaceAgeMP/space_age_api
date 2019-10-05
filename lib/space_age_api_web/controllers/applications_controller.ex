@@ -6,7 +6,9 @@ defmodule SpaceAgeApiWeb.ApplicationsController do
     alias SpaceAgeApi.Models.Player
     alias SpaceAgeApi.Repo
 
-    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true]
+    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true, allow_client: true, require_faction_name: true, require_faction_leader: true] when action in [:list_by_faction]
+    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true, allow_client: true, require_steamid: true] when action in [:get_by_player]
+    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:upsert, :accept_by_faction_for_player]
 
     def get_by_player(conn, params) do
         steamid = params["steamid"]
