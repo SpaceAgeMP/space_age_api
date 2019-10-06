@@ -23,6 +23,7 @@ defmodule SpaceAgeApiWeb do
 
       import Plug.Conn
       alias SpaceAgeApi.Repo
+      alias SpaceAgeApi.Util
       alias SpaceAgeApiWeb.Router.Helpers, as: Routes
 
       def single_or_404(conn, _template, nil) do
@@ -36,13 +37,17 @@ defmodule SpaceAgeApiWeb do
       end
 
       def changeset_perform_upsert_by_steamid(conn, changeset) do
+        changeset_perform_insert(conn, changeset, on_conflict: :replace_all_except_primary_key, conflict_target: :steamid)
+      end
+
+      def changeset_perform_insert(conn, changeset, opts \\ nil) do
         if changeset.valid? do
-          Repo.insert!(changeset, on_conflict: :replace_all_except_primary_key, conflict_target: :steamid)
+          Repo.insert!(changeset, opts)
           json(conn, %{ok: true})
         else
           conn
           |> put_status(400)
-          |> json(%{ok: false, errors: changeset.errors})
+          |> json(%{ok: false, errors: Util.parse_changeset_errors(changeset)})
         end
       end
     end

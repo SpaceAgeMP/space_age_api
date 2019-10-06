@@ -5,13 +5,18 @@ defmodule SpaceAgeApiWeb.GoodiesController do
     alias SpaceAgeApi.Models.Goodie
 
     plug SpaceAgeApi.Plug.Authenticate, [allow_server: true, allow_client: true, require_steamid: true] when action in [:list]
-    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:delete]
+    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:delete, :create]
 
     def list(conn, params) do
         steamid = params["steamid"]
 
         render(conn, "multi.json",  goodies: Repo.all(from g in Goodie,
             where: g.steamid == ^steamid))
+    end
+
+    def create(conn, params) do
+        goodie = Goodie.changeset(%Goodie{}, params)
+        changeset_perform_insert(conn, goodie)
     end
 
     def delete(conn, params) do
