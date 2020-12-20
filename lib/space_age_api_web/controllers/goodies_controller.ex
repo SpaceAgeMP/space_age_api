@@ -23,21 +23,24 @@ defmodule SpaceAgeApiWeb.GoodiesController do
         id = params["id"]
         steamid = params["steamid"]
 
-        goodie = Repo.one(from g in Goodie,
-            where: g.id == ^id and g.steamid == ^steamid and is_nil(g.used))
-        if goodie do
-            changeset = Goodie.changeset(goodie, %{
-                used: NaiveDateTime.utc_now(),
-            })
-            Repo.update!(changeset)
+        Repo.transaction(fn ->
+            goodie = Repo.one(from g in Goodie,
+                where: g.id == ^id and g.steamid == ^steamid and is_nil(g.used),
+                lock: "FOR UPDATE")
+            if goodie do
+                changeset = Goodie.changeset(goodie, %{
+                    used: NaiveDateTime.utc_now(),
+                })
+                Repo.update!(changeset)
 
-            conn
-            |> send_resp(204, "")
-            |> halt
-        else
-            conn
-            |> send_resp(404, "Not found")
-            |> halt
-        end
+                conn
+                |> send_resp(204, "")
+                |> halt
+            else
+                conn
+                |> send_resp(404, "Not found")
+                |> halt
+            end
+        end)
     end
 end
