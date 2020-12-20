@@ -8,7 +8,6 @@ defmodule SpaceAgeApi.Plug.Authenticate do
     import Plug.Conn
     import Ecto.Query
     alias SpaceAgeApi.Models.Server
-    alias SpaceAgeApi.Models.Player
     alias SpaceAgeApi.Repo
 
     def init(options), do: options
@@ -72,11 +71,16 @@ defmodule SpaceAgeApi.Plug.Authenticate do
         {ok, claims} = SpaceAgeApi.Token.verify_and_validate(token)
         if ok == :ok do
             steamid = claims["sub"]
-            player = Repo.one(from p in Player,
-                                where: p.steamid == ^steamid)
+            faction_name = claims["faction_name"]
+            is_faction_leader = claims["is_faction_leader"]
+
             conn
-            |> set_conn_authid("client " <> player.name)
-            |> assign(:auth_client, player)
+            |> set_conn_authid("client " <> steamid)
+            |> assign(:auth_client, %{
+                steamid: steamid,
+                faction_name: faction_name,
+                is_faction_leader: is_faction_leader,
+            })
         else
             make_conn_badauth(conn, "client")
         end

@@ -18,10 +18,6 @@ defmodule SpaceAgeApiWeb.PlayersController do
     end
 
     def get_full(conn, params) do
-        client_auth = conn.assigns[:auth_client]
-        if client_auth do
-            single_or_404(conn, "single_full.json", client_auth)
-        end
         get_single(conn, params, "single_full.json")
     end
 
@@ -37,25 +33,31 @@ defmodule SpaceAgeApiWeb.PlayersController do
     def make_jwt(conn, params) do
         steamid = params["steamid"]
         valid_time = params["valid_time"]
-        make_jwt_internal(conn, steamid, valid_time)
+        player = Repo.one(build_query(steamid, [:steamid, :faction_name, :is_faction_leader]))
+
+        make_jwt_internal(conn, player, valid_time)
     end
 
-    defp make_jwt_internal(conn, steamid, valid_time) when is_binary(valid_time) do
-        make_jwt_internal(conn, steamid, valid_time |> String.to_integer)
+    defp make_jwt_internal(conn, player, valid_time) when is_binary(valid_time) do
+        make_jwt_internal(conn, player, valid_time |> String.to_integer)
     end
 
-    defp make_jwt_internal(conn, steamid, valid_time) when valid_time > 0 and valid_time <= 3600 do
+    defp make_jwt_internal(conn, player, valid_time) when valid_time > 0 and valid_time <= 3600 do
         expiry = System.system_time(:second) + valid_time
 
         jwt = SpaceAgeApi.Token.generate_and_sign!(%{
-            "exp" => expiry,
-            "sub" => steamid
+            exp: expiry,
+            sub: player.steamid,
+            faction_name: player.faction_name,
+            is_faction_leader: player.is_faction_leader,
         })
 
         single_or_404(conn, "jwt.json", %{
             token: jwt,
             expiry: expiry,
-            steamid: steamid,
+            steamid: player.steamid,
+            faction_name: player.faction_name,
+            is_faction_leader: player.is_faction_leader,
         })
     end
     defp make_jwt_internal(conn, steamid, _valid_time) do
