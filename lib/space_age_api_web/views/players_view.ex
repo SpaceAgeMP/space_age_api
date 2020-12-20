@@ -14,6 +14,14 @@ defmodule SpaceAgeApiWeb.PlayersView do
         player_all(player)
     end
 
+    def render("jwt.json", %{data: token}) do
+        %{
+            token: token.token,
+            expiry: token.expiry,
+            steamid: token.steamid,
+        }
+    end
+
     def player_all(player) do
         %{
             advancement_level: player.advancement_level,

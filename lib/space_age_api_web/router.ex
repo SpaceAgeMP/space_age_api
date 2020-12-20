@@ -13,6 +13,7 @@ defmodule SpaceAgeApiWeb.Router do
     get "/players/:steamid", PlayersController, :get
     get "/players/:steamid/full", PlayersController, :get_full
     put "/players/:steamid", PlayersController, :upsert
+    post "/players/:steamid/jwt", PlayersController, :make_jwt
 
     get "/players/:steamid/goodies", GoodiesController, :list
     delete "/players/:steamid/goodies/:id", GoodiesController, :delete
