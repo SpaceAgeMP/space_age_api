@@ -5,6 +5,7 @@ defmodule SpaceAgeApi.Models.Goodie do
   schema "goodies" do
     field :steamid, :string
     field :type, :string
+    field :used, :naive_datetime
 
     timestamps()
   end
@@ -12,7 +13,7 @@ defmodule SpaceAgeApi.Models.Goodie do
   @doc false
   def changeset(goodie, attrs) do
     goodie
-    |> cast(attrs, [:steamid, :type])
+    |> cast(attrs, [:steamid, :type, :used])
     |> validate_required([:steamid, :type])
   end
 end
