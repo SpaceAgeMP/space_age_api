@@ -33,9 +33,7 @@ defmodule SpaceAgeApiWeb.GoodiesController do
                 })
                 Repo.update!(changeset)
 
-                conn
-                |> send_resp(204, "")
-                |> halt
+                render(conn, "single.json", goodie: goodie)
             else
                 conn
                 |> send_resp(404, "Not found")
