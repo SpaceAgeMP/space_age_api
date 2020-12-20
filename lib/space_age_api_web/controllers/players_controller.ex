@@ -32,8 +32,12 @@ defmodule SpaceAgeApiWeb.PlayersController do
 
     def make_jwt(conn, params) do
         steamid = params["steamid"]
-        valid_time = params["valid_time"] |> String.to_integer
+        valid_time = params["valid_time"]
         make_jwt_internal(conn, steamid, valid_time)
+    end
+
+    defp make_jwt_internal(conn, steamid, valid_time) when is_binary(valid_time) do
+        make_jwt_internal(conn, steamid, valid_time |> String.to_integer)
     end
 
     defp make_jwt_internal(conn, steamid, valid_time) when valid_time > 0 and valid_time <= 3600 do
