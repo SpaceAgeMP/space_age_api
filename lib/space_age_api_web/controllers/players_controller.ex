@@ -18,6 +18,10 @@ defmodule SpaceAgeApiWeb.PlayersController do
     end
 
     def get_full(conn, params) do
+        client_auth = conn.assigns[:auth_client]
+        if client_auth do
+            single_or_404(conn, "single_full.json", client_auth)
+        end
         get_single(conn, params, "single_full.json")
     end
 
