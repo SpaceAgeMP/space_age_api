@@ -19,6 +19,8 @@ defmodule SpaceAgeApiWeb.PlayersView do
             token: token.token,
             expiry: token.expiry,
             steamid: token.steamid,
+            faction_name: token.faction_name,
+            is_faction_leader: token.is_faction_leader,
         }
     end
 
