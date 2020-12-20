@@ -11,7 +11,7 @@ defmodule SpaceAgeApiWeb.GoodiesController do
         steamid = params["steamid"]
 
         render(conn, "multi.json",  goodies: Repo.all(from g in Goodie,
-            where: g.steamid == ^steamid))
+            where: g.steamid == ^steamid and is_nil(g.used)))
     end
 
     def create(conn, params) do
@@ -24,9 +24,13 @@ defmodule SpaceAgeApiWeb.GoodiesController do
         steamid = params["steamid"]
 
         goodie = Repo.one(from g in Goodie,
-            where: g.id == ^id and g.steamid == ^steamid)
+            where: g.id == ^id and g.steamid == ^steamid and is_nil(g.used))
         if goodie do
-            Repo.delete(goodie)
+            changeset = Goodie.changeset(goodie, %{
+                used: NaiveDateTime.utc_now(),
+            })
+            Repo.update!(changeset)
+
             conn
             |> send_resp(204, "")
             |> halt

@@ -15,6 +15,7 @@ defmodule SpaceAgeApiWeb.GoodiesView do
             id: goodie.id,
             type: goodie.type,
             steamid: goodie.steamid,
+            used: goodie.used,
         }
     end
 end
