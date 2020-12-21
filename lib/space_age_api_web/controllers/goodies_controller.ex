@@ -23,7 +23,7 @@ defmodule SpaceAgeApiWeb.GoodiesController do
         id = params["id"]
         steamid = params["steamid"]
 
-        Repo.transaction(fn ->
+        goodie = Repo.transaction(fn ->
             goodie = Repo.one(from g in Goodie,
                 where: g.id == ^id and g.steamid == ^steamid and is_nil(g.used),
                 lock: "FOR UPDATE")
@@ -32,13 +32,16 @@ defmodule SpaceAgeApiWeb.GoodiesController do
                     used: NaiveDateTime.utc_now(),
                 })
                 Repo.update!(changeset)
-
-                render(conn, "single.json", goodie: goodie)
-            else
-                conn
-                |> send_resp(404, "Not found")
-                |> halt
             end
+            goodie
         end)
+
+        if goodie do
+            render(conn, "single.json", goodie: goodie)
+        else
+            conn
+            |> send_resp(404, "Not found")
+            |> halt   
+        end
     end
 end
