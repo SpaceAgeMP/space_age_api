@@ -92,7 +92,7 @@ defmodule SpaceAgeApi.Plug.Authenticate do
     defp set_conn_authid(conn, authid) do
         merge_resp_headers(conn, [{"Client-Identity", authid}])
     end
-    defp make_conn_badauth(conn, type, reason // '') do
+    defp make_conn_badauth(conn, type, reason \\ '') do
         conn
         |> set_conn_authid(type <> " INVALID " <> reason)
         |> make_conn_unauth
