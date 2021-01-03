@@ -32,21 +32,15 @@ defmodule SpaceAgeApiWeb.PlayersController do
 
     def make_jwt(conn, params) do
         steamid = params["steamid"]
-        valid_time = params["valid_time"]
         player = Repo.one(build_query(steamid, [:steamid, :faction_name, :is_faction_leader]))
 
-        make_jwt_internal(conn, player, valid_time)
+        make_jwt_internal(conn, player)
     end
 
-    defp make_jwt_internal(conn, player, valid_time) when is_binary(valid_time) do
-        make_jwt_internal(conn, player, valid_time |> String.to_integer)
-    end
-
-    defp make_jwt_internal(conn, player, valid_time) when valid_time > 0 and valid_time <= 3600 do
-        expiry = System.system_time(:second) + valid_time
+    defp make_jwt_internal(conn, player) do
+        expiry = System.system_time(:second) + 7200
 
         jwt = SpaceAgeApi.Token.generate_and_sign!(%{
-            exp: expiry,
             sub: player.steamid,
             faction_name: player.faction_name,
             is_faction_leader: player.is_faction_leader,
@@ -59,9 +53,6 @@ defmodule SpaceAgeApiWeb.PlayersController do
             faction_name: player.faction_name,
             is_faction_leader: player.is_faction_leader,
         })
-    end
-    defp make_jwt_internal(conn, steamid, _valid_time) do
-        make_jwt_internal(conn, steamid, 300)
     end
 
     defp build_query(steamid, select) do
