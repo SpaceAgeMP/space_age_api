@@ -94,7 +94,7 @@ defmodule SpaceAgeApi.Plug.Authenticate do
     end
     defp make_conn_badauth(conn, type, reason \\ '') do
         conn
-        |> set_conn_authid(type <> " INVALID " <> reason)
+        |> set_conn_authid(type <> " INVALID " <> to_string(reason))
         |> make_conn_unauth
     end
     defp make_conn_unauth(conn) do
