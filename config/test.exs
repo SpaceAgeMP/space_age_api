@@ -2,8 +2,8 @@ use Mix.Config
 
 # Configure your database
 config :space_age_api, SpaceAgeApi.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "test",
+  password: "test",
   database: "space_age_api_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
