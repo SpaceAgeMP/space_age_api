@@ -37,7 +37,7 @@ defmodule SpaceAgeApiWeb do
       end
 
       def changeset_perform_upsert_by_steamid(conn, changeset) do
-        changeset_perform_insert(conn, changeset, on_conflict: {:replace_all_except, [:steamid]})
+        changeset_perform_insert(conn, changeset, on_conflict: {:replace_all_except, [:steamid, :inserted_at]})
       end
 
       def changeset_perform_insert(conn, changeset, opts \\ nil) do
