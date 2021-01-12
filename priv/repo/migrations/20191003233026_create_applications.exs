@@ -4,7 +4,7 @@ defmodule SpaceAgeApi.Repo.Migrations.CreateApplications do
   def change do
     create table(:applications, primary_key: false) do
       add :steamid, :string, primary_key: true
-      add :text, :text, null: false
+      add :text, :longtext, null: false
       add :faction_name, :string, null: false
 
       timestamps()
