@@ -41,7 +41,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
         valid_time = SpaceAgeApi.Token.default_exp()
         expiry = System.system_time(:second) + valid_time
 
-        server = conn.auth[:auth_server]
+        server = conn.assigns[:auth_server]
 
         jwt = SpaceAgeApi.Token.generate_and_sign!(%{
             sub: player.steamid,
