@@ -71,13 +71,15 @@ defmodule SpaceAgeApi.Plug.Authenticate do
         {ok, claims} = SpaceAgeApi.Token.verify_and_validate(token)
         if ok == :ok do
             steamid = claims["sub"]
+            server = claims["server"]
             faction_name = claims["faction_name"]
             is_faction_leader = claims["is_faction_leader"]
 
             conn
-            |> set_conn_authid("client " <> steamid)
+            |> set_conn_authid("client " <> steamid <> " " <> server)
             |> assign(:auth_client, %{
                 steamid: steamid,
+                server: server,
                 faction_name: faction_name,
                 is_faction_leader: is_faction_leader,
             })
