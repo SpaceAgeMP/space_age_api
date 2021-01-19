@@ -17,6 +17,6 @@ defmodule SpaceAgeApi.Plug.Cache do
     end
     defp put_cache_control(conn, time) do
         conn
-        |> put_resp_header("cache-control", "max-age=#{time}")
+        |> put_resp_header("cache-control", "max-age=" <> to_string(time))
     end
 end
