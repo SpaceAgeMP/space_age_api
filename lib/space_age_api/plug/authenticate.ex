@@ -61,7 +61,7 @@ defmodule SpaceAgeApi.Plug.Authenticate do
                             where: s.authkey == ^token)
         if server do
             conn
-            |> set_conn_authid("server " <> server.name)
+            |> set_conn_authid("server #{server.name}")
             |> assign(:auth_server, server)
         else
             make_conn_badauth(conn, "server")
@@ -76,7 +76,7 @@ defmodule SpaceAgeApi.Plug.Authenticate do
             is_faction_leader = claims["is_faction_leader"]
 
             conn
-            |> set_conn_authid("client " <> steamid <> " " <> server)
+            |> set_conn_authid("client #{steamid} #{server}")
             |> assign(:auth_client, %{
                 steamid: steamid,
                 server: server,
@@ -96,7 +96,7 @@ defmodule SpaceAgeApi.Plug.Authenticate do
     end
     defp make_conn_badauth(conn, type, reason \\ '') do
         conn
-        |> set_conn_authid(type <> " INVALID " <> Kernel.inspect(reason))
+        |> set_conn_authid("#{type} INVALID #{Kernel.inspect(reason)}")
         |> make_conn_unauth
     end
     defp make_conn_unauth(conn) do
