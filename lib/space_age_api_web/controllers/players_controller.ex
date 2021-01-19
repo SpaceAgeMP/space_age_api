@@ -8,6 +8,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
 
     plug SpaceAgeApi.Plug.Authenticate, [allow_server: true, allow_client: true, require_steamid: true] when action in [:get_full]
     plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:upsert, :make_jwt]
+    plug SpaceAgeApi.Plug.Cache when action in [:list]
 
     def list(conn, _params) do
         render(conn, "multi_public.json", players: Repo.all(from p in Player,

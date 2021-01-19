@@ -4,6 +4,8 @@ defmodule SpaceAgeApiWeb.FactionsController do
     alias SpaceAgeApi.Models.Player
     import Ecto.Query
 
+    plug SpaceAgeApi.Plug.Cache when action in [:list]
+
     def list(conn, _params) do
         res = Repo.all(from p in Player,
                     group_by: p.faction_name,
