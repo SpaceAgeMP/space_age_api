@@ -8,7 +8,7 @@ defmodule SpaceAgeApi.Plug.Cache do
 
     def call(conn, opts) do
         conn
-        |> put_cache_control(opts["time"])
+        |> put_cache_control(opts[:time])
     end
 
     defp put_cache_control(conn, nil) do
