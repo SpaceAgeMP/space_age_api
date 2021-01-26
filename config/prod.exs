@@ -10,8 +10,7 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :space_age_api, SpaceAgeApiWeb.Endpoint,
-  url: [host: "api.spaceage.mp", port: 443],
-  http: [ip: {127,0,0,1}, port: 4000]
+  url: [host: "api.spaceage.mp", port: 443]
 
 # Do not print debug messages in production
 config :logger, level: :info

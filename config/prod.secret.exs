@@ -24,7 +24,7 @@ secret_key_base =
     """
 
 config :space_age_api, SpaceAgeApiWeb.Endpoint,
-  http: [:inet6, port: String.to_integer(System.get_env("PORT") || "4000")],
+  http: [ip: {127,0,0,1}, port: String.to_integer(System.get_env("PORT") || "4000")],
   secret_key_base: secret_key_base
 
   config :joken, default_signer: secret_key_base
