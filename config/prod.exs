@@ -11,7 +11,7 @@ use Mix.Config
 # before starting your production server.
 config :space_age_api, SpaceAgeApiWeb.Endpoint,
   url: [host: "api.spaceage.mp", port: 443],
-  http: [ip: {127,0,0,1}, port: 4000]
+  http: [host: {127,0,0,1}, port: 4000]
 
 # Do not print debug messages in production
 config :logger, level: :info
