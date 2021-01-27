@@ -9,7 +9,7 @@ defmodule SpaceAgeApiWeb.FactionsController do
     def list(conn, _params) do
         res = Repo.all(from p in Player,
                     group_by: p.faction_name,
-                    select: %{faction_name: p.faction_name, score: sum(p.score)},
+                    select: %{faction_name: p.faction_name, score: fragment("CONVERT(?, SIGNED)", sum(p.score))},
                     where: p.score > 0 and p.steamid != "STEAM_0:0:0" and p.faction_name != "freelancer",
                     order_by: [desc: sum(p.score)])
         render(conn, "multi.json", factions: res)
