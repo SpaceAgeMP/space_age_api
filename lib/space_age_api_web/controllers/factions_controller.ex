@@ -12,6 +12,6 @@ defmodule SpaceAgeApiWeb.FactionsController do
                     select: %{faction_name: p.faction_name, score: sum(p.score)},
                     where: p.score > 0 and p.steamid != "STEAM_0:0:0" and p.faction_name != "freelancer",
                     order_by: [desc: sum(p.score)])
-        render(conn, "multi_public.json", factions: res)
+        render(conn, "multi.json", factions: res)
     end
 end
