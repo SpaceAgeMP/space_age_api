@@ -9,7 +9,6 @@ defmodule SpaceAgeApiWeb.FactionsView do
     def faction_all(faction) do
         %{
             faction_name: faction.faction_name,
-            credits: faction.credits,
             score: faction.score,
         }
     end
