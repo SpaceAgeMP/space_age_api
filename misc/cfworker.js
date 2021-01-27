@@ -2,6 +2,7 @@ addEventListener('fetch', event => {
     event.respondWith(handleRequest(event.request));
 });
 
+const NOTSET = Symbol('NOTSET');
 const ALLOWED_ORIGIN = 'https://static.spaceage.mp';
 
 async function apiFetch(url, origin, ip) {
@@ -44,7 +45,7 @@ async function handleRequest(request) {
     const routes = [...new Set(url.searchParams.getAll('run'))];
   
     let cacheValid = true;
-    let cacheHeader = 'NOTSET';
+    let cacheHeader = NOTSET;
 
     const apiFetches = {};
     await Promise.all(
@@ -58,7 +59,7 @@ async function handleRequest(request) {
     for (const route in apiFetches) {
         const apiReply = apiFetches[route];
         if (cacheValid) {
-            if (cacheHeader !== 'NOTSET' && apiReply.cache !== cacheHeader) {
+            if (cacheHeader !== NOTSET && apiReply.cache !== cacheHeader) {
                 cacheValid = false;
             }
             cacheHeader = apiReply.cache;
@@ -66,7 +67,7 @@ async function handleRequest(request) {
         response[route] = apiReply.response;
     }
 
-    if (!cacheValid || !cacheHeader || cacheHeader === 'NOTSET') {
+    if (!cacheValid || !cacheHeader || cacheHeader === NOTSET) {
         cacheHeader = 'private, no-cache, no-store, max-age=0';
     }
     
