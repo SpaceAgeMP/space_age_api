@@ -27,18 +27,22 @@ async function apiFetch(url, origin, ip) {
 }
 
 async function handleRequest(request) {
+    const url = new URL(request.url);
+    const origin = request.headers.get('Origin');
+    const ip = request.headers.get('CF-Connecting-IP');
+
+    if (url.pathname !== '/cdn/aggregate') {
+        return new Response('Route not found', { status: 404 });
+    }
+
     if (request.method !== 'GET') {
         return new Response('Invalid method', { status: 405 });
     }
-
-    const origin = request.headers.get('Origin');
-    const ip = request.headers.get('CF-Connecting-IP');
 
     if (origin !== ALLOWED_ORIGIN) {
         return new Response('Invalid caller', { status: 403 });
     }
 
-    const url = new URL(request.url);
     const routes = [...new Set(url.searchParams.getAll('run'))];
   
     let cacheValid = true;
