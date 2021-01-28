@@ -6,15 +6,12 @@ const NOTSET = Symbol('NOTSET');
 const ALLOWED_ORIGIN = 'https://static.spaceage.mp';
 
 async function apiFetch(url, origin, ip) {
-    if (!url.startsWith('/v2/')) {
-        return { code: 599, data: 'Invalid URL' };
-    }
-
     const res = await fetch(`https://api.spaceage.mp${url}`, {
         headers: {
             'Client-ID': `SpaceAge/Aggrgator [${origin}] (${ip})`,
         },
     });
+
     let data = await res.text();
     try {
         data = JSON.parse(data);
@@ -47,17 +44,18 @@ async function handleRequest(request) {
     let cacheValid = true;
     let cacheHeader = NOTSET;
 
-    const apiFetches = {};
+    const apiFetches = new Map();
     await Promise.all(
-        routes.map(route => 
+        routes
+        .filter(route => route.startsWith('/v2/'))
+        .map(route => 
             apiFetch(route, origin, ip)
-            .then(res => { apiFetches[route] = res; })
+            .then(res => { apiFetches.set(route, res); })
         ),
     );
 
     const response = {};
-    for (const route in apiFetches) {
-        const apiReply = apiFetches[route];
+    for (const [route, apiReply] of apiFetches.entries()) {
         if (cacheValid) {
             if (cacheHeader !== NOTSET && apiReply.cache !== cacheHeader) {
                 cacheValid = false;
