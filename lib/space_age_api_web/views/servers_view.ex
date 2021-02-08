@@ -2,7 +2,7 @@ defmodule SpaceAgeApiWeb.ServersView do
     @moduledoc false
     use SpaceAgeApiWeb, :view
 
-    def render("multi_public.json", %{servers: servers}) do
+    def render("multi.json", %{servers: servers}) do
         Enum.map(servers, &server_full/1)
     end
 
