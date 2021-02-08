@@ -3,6 +3,7 @@ defmodule SpaceAgeApi.Models.Server do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @primary_key false
   schema "servers" do
     field :authkey, :string
     field :name, :string
