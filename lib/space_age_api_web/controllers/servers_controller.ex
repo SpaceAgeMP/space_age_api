@@ -6,7 +6,7 @@ defmodule SpaceAgeApiWeb.ServersController do
     alias SpaceAgeApi.Repo
     alias SpaceAgeApi.Util
 
-    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:get_self]
+    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:get_self, :upsert]
     plug SpaceAgeApi.Plug.Cache when action in [:list, :get]
 
     def list(conn, _params) do
@@ -21,5 +21,10 @@ defmodule SpaceAgeApiWeb.ServersController do
     def get_self(conn, _params) do
         server = conn.assigns[:auth_server]
         single_or_404(conn, "single.json", server)
+    end
+
+    def upsert(conn, params) do
+        server = Server.changeset(conn.assigns[:auth_server], Util.map_decimal_to_integer(params))
+        changeset_perform_insert(conn, server, on_conflict: {:replace_all_except, [:name, :authkey, :inserted_at]})
     end
 end
