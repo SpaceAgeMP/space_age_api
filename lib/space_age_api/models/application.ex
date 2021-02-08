@@ -17,5 +17,6 @@ defmodule SpaceAgeApi.Models.Application do
     application
     |> cast(attrs, [:steamid, :text, :faction_name])
     |> validate_required([:steamid, :text, :faction_name])
+    |> put_change(:updated_at, DateTime.utc_now)
   end
 end
