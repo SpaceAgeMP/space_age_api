@@ -10,7 +10,7 @@ defmodule SpaceAgeApiWeb.ServersController do
     plug SpaceAgeApi.Plug.Cache when action in [:list, :get]
 
     def list(conn, _params) do
-        render(conn, "multi.json", servers: Repo.all(from s in Server))
+        render(conn, "multi.json", servers: Repo.all(from s in Server, where: s.hidden == false))
     end
 
     def get(conn, params) do
