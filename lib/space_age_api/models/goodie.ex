@@ -15,6 +15,6 @@ defmodule SpaceAgeApi.Models.Goodie do
     goodie
     |> cast(attrs, [:steamid, :type, :used])
     |> validate_required([:steamid, :type])
-    |> put_change(:updated_at, DateTime.utc_now)
+    |> put_change(:updated_at, NaiveDateTime.utc_now)
   end
 end
