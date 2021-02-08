@@ -1,4 +1,4 @@
-defmodule SpaceAgeApiWeb.PlayersController do
+defmodule SpaceAgeApiWeb.ServersController do
     @moduledoc false
     use SpaceAgeApiWeb, :controller
     import Ecto.Query
