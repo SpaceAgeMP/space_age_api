@@ -6,6 +6,9 @@ defmodule SpaceAgeApi.Models.Server do
   schema "servers" do
     field :authkey, :string
     field :name, :string
+    field :map, :string
+    field :players, :integer
+    field :maxplayers, :integer    
 
     timestamps()
   end
@@ -13,8 +16,8 @@ defmodule SpaceAgeApi.Models.Server do
   @doc false
   def changeset(server, attrs) do
     server
-    |> cast(attrs, [:name, :authkey])
-    |> validate_required([:name, :authkey])
+    |> cast(attrs, [:name, :authkey, :map, :players, :maxplayers])
+    |> validate_required([:name, :authkey, :map, :players, :maxplayers])
     |> unique_constraint(:name)
     |> unique_constraint(:authkey)
   end
