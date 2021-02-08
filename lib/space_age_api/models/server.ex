@@ -9,7 +9,7 @@ defmodule SpaceAgeApi.Models.Server do
     field :map, :string
     field :players, :integer
     field :maxplayers, :integer
-    field :hidden, :bool
+    field :hidden, :boolean
 
     timestamps()
   end
