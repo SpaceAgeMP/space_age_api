@@ -7,7 +7,7 @@ defmodule SpaceAgeApiWeb.ServersController do
     alias SpaceAgeApi.Util
 
     plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:get_self, :upsert_self]
-    plug SpaceAgeApi.Plug.Cache when action in [:list, :get]
+    plug SpaceAgeApi.Plug.Cache, [time: 5] when action in [:list, :get]
 
     def list(conn, _params) do
         render(conn, "multi.json", servers: Repo.all(from s in Server, where: s.hidden == false))
