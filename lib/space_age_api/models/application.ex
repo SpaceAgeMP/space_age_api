@@ -2,6 +2,7 @@ defmodule SpaceAgeApi.Models.Application do
   @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
+  alias SpaceAgeApi.Util
 
   @primary_key false
   schema "applications" do
@@ -17,6 +18,6 @@ defmodule SpaceAgeApi.Models.Application do
     application
     |> cast(attrs, [:steamid, :text, :faction_name])
     |> validate_required([:steamid, :text, :faction_name])
-    |> put_change(:updated_at, NaiveDateTime.utc_now)
+    |> put_change(:updated_at, Util.naive_date_time())
   end
 end

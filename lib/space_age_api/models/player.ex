@@ -2,6 +2,7 @@ defmodule SpaceAgeApi.Models.Player do
   @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
+  alias SpaceAgeApi.Util
 
   @primary_key false
   schema "players" do
@@ -27,6 +28,6 @@ defmodule SpaceAgeApi.Models.Player do
     player
     |> cast(attrs, [:name, :steamid, :credits, :score, :is_faction_leader, :is_donator, :alliance_membership_expiry, :faction_name, :advancement_level, :research, :playtime, :station_storage])
     |> validate_required([:name, :steamid, :credits, :score, :is_faction_leader, :is_donator, :alliance_membership_expiry, :faction_name, :advancement_level, :research, :playtime, :station_storage])
-    |> put_change(:updated_at, NaiveDateTime.utc_now)
+    |> put_change(:updated_at, Util.naive_date_time())
   end
 end

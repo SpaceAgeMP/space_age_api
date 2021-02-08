@@ -2,6 +2,7 @@ defmodule SpaceAgeApi.Models.Server do
   @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
+  alias SpaceAgeApi.Util
 
   @primary_key false
   schema "servers" do
@@ -22,6 +23,6 @@ defmodule SpaceAgeApi.Models.Server do
     |> validate_required([:name, :authkey, :map, :players, :maxplayers, :hidden])
     |> unique_constraint(:name)
     |> unique_constraint(:authkey)
-    |> put_change(:updated_at, NaiveDateTime.utc_now)
+    |> put_change(:updated_at, Util.naive_date_time())
   end
 end
