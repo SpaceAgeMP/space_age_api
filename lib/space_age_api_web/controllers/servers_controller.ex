@@ -17,4 +17,9 @@ defmodule SpaceAgeApiWeb.ServersController do
         name = params["name"]
         single_or_404(conn, "single.json", Repo.one(from s in Server, where: s.name == ^name))
     end
+
+    def get_self(conn, _params) do
+        server = conn.assigns[:auth_server]
+        single_or_404(conn, "single.json", server)
+    end
 end
