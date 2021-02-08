@@ -1,4 +1,4 @@
-defmodule SpaceAgeApiWeb.PlayersView do
+defmodule SpaceAgeApiWeb.ServersView do
     @moduledoc false
     use SpaceAgeApiWeb, :view
 
