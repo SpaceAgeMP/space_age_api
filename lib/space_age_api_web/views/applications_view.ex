@@ -19,4 +19,12 @@ defmodule SpaceAgeApiWeb.ApplicationsView do
             player: PlayersView.player_public(player),
         }
     end
+
+    def application_single(application) do
+        %{
+            steamid: application.steamid,
+            faction_name: application.faction_name,
+            text: application.text,
+        }
+    end
 end
