@@ -11,14 +11,28 @@ defmodule SpaceAgeApiWeb.ServersView do
     end
 
     def server_full(server) do
-        %{
-            name: server.name,
-            map: server.map,
-            players: server.players,
-            maxplayers: server.maxplayers,
-            location: server.location,
-            hidden: server.hidden,
-            updated_at: server.updated_at,
-        }
+        if server.hidden do
+            %{
+                name: server.name,
+                map: server.map,
+                players: server.players,
+                maxplayers: server.maxplayers,
+                location: server.location,
+                hidden: server.hidden,
+                ipport: "127.0.0.1:27015",
+                updated_at: server.updated_at,
+            }
+        else
+            %{
+                name: server.name,
+                map: server.map,
+                players: server.players,
+                maxplayers: server.maxplayers,
+                location: server.location,
+                hidden: server.hidden,
+                ipport: server.ipport,
+                updated_at: server.updated_at,
+            }
+        end
     end
 end
