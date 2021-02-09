@@ -29,5 +29,6 @@ defmodule SpaceAgeApiWeb.ServersController do
         if res do
             single_or_404(conn, "single.json", res)
         end
+        conn
     end
 end
