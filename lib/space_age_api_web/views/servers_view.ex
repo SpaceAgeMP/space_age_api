@@ -16,6 +16,7 @@ defmodule SpaceAgeApiWeb.ServersView do
             map: server.map,
             players: server.players,
             maxplayers: server.maxplayers,
+            location: server.location,
             updated_at: server.updated_at,
         }
     end

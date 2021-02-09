@@ -6,6 +6,7 @@ defmodule SpaceAgeApi.Repo.Migrations.CreateServers do
       add :name, :string
       add :authkey, :string, primary_key: true
       add :map, :string, null: false, default: "sb_gooniverse_v4"
+      add :location, :string, null: false, default: ""
       add :players, :bigint, null: false, default: 0
       add :maxplayers, :bigint, null: false, default: 16
       add :hidden, :bool, null: false, default: true
