@@ -46,8 +46,6 @@ defmodule SpaceAgeApiWeb do
           if render do
             json(conn, %{ok: true})
           end
-
-          true
         else
           conn
           |> put_status(400)
