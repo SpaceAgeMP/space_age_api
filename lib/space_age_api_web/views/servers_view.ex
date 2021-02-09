@@ -19,7 +19,7 @@ defmodule SpaceAgeApiWeb.ServersView do
                 maxplayers: server.maxplayers,
                 location: server.location,
                 hidden: server.hidden,
-                ipport: "127.0.0.1:27015",
+                ipport: "",
                 updated_at: server.updated_at,
             }
         else
