@@ -1,6 +1,7 @@
 defmodule SpaceAgeApiWeb.ServersView do
     @moduledoc false
     use SpaceAgeApiWeb, :view
+    alias SpaceAgeApi.Util
 
     def render("multi.json", %{servers: servers}) do
         Enum.map(servers, &server_full/1)
@@ -11,6 +12,7 @@ defmodule SpaceAgeApiWeb.ServersView do
     end
 
     def server_full(server) do
+        online = NaiveDateTime.diff(Util.naive_date_time(), server.updated_at) < 30
         if server.hidden do
             %{
                 name: server.name,
@@ -20,7 +22,7 @@ defmodule SpaceAgeApiWeb.ServersView do
                 location: server.location,
                 hidden: server.hidden,
                 ipport: "",
-                updated_at: server.updated_at,
+                online: online,
             }
         else
             %{
@@ -31,7 +33,7 @@ defmodule SpaceAgeApiWeb.ServersView do
                 location: server.location,
                 hidden: server.hidden,
                 ipport: server.ipport,
-                updated_at: server.updated_at,
+                online: online,
             }
         end
     end
