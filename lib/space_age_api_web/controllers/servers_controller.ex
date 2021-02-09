@@ -25,7 +25,7 @@ defmodule SpaceAgeApiWeb.ServersController do
 
     def upsert_self(conn, params) do
         server = Server.changeset(conn.assigns[:auth_server], Util.map_decimal_to_integer(params))
-        ok = changeset_perform_insert(conn, server, on_conflict: {:replace_all_except, [:name, :authkey, :inserted_at]}, false)
+        ok = changeset_perform_insert(conn, server, false, on_conflict: {:replace_all_except, [:name, :authkey, :inserted_at]})
         if ok do
             single_or_404(conn, "single.json", server)
         end
