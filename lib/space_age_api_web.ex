@@ -42,10 +42,11 @@ defmodule SpaceAgeApiWeb do
 
       def changeset_perform_insert(conn, changeset, render \\ true, opts \\ nil) do
         if changeset.valid? do
-          Repo.insert!(changeset, opts)
+          res = Repo.insert!(changeset, opts)
           if render do
             json(conn, %{ok: true})
           end
+          res
         else
           conn
           |> put_status(400)
