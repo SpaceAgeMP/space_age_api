@@ -32,6 +32,6 @@ defmodule SpaceAgeApiWeb.Router do
     get "/servers/self", ServersController, :get_self
     put "/servers/self", ServersController, :upsert_self
     get "/servers/:name", ServersController, :get
-    get "/servers/:name/connect", ServersController, :connect
+    get "/servers/:name/connect", ServersController, :connect_redirect
   end
 end
