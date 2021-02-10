@@ -27,7 +27,7 @@ defmodule SpaceAgeApiWeb.ServersController do
         name = params["name"]
         server = Repo.one(from s in Server, where: s.name == ^name)
         if server != nil and not server.hidden do
-            redirect(conn, to: Server.get_link(server))
+            redirect(conn, external: Server.get_link(server))
         else
             conn
             |> put_resp_content_type("text/plain")
