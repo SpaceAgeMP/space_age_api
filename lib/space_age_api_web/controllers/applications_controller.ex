@@ -6,7 +6,7 @@ defmodule SpaceAgeApiWeb.ApplicationsController do
     alias SpaceAgeApi.Models.Player
     alias SpaceAgeApi.Repo
 
-    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true, allow_client: true, require_faction_name: true, require_faction_leader: true] when action in [:list_by_faction]
+    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true, allow_client: true, require_faction_name: true, require_faction_leader: true] when action in [:list_by_faction, :decline_by_faction_for_player]
     plug SpaceAgeApi.Plug.Authenticate, [allow_server: true, allow_client: true, require_steamid: true] when action in [:get_by_player]
     plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:upsert, :accept_by_faction_for_player]
 
@@ -32,6 +32,20 @@ defmodule SpaceAgeApiWeb.ApplicationsController do
                                 join: p in Player, on: p.steamid == a.steamid,
                                 select: [a, p])
         render(conn, "multi.json", applications: applications)
+    end
+
+    def decline_by_faction_for_player(conn, params) do
+        faction_name = params["faction_name"]
+        steamid = params["steamid"]
+
+        application = Repo.one(from a in Application,
+                where: a.steamid == ^steamid and a.faction_name == ^faction_name)
+
+        if application do
+            Repo.delete!(application)
+        end
+
+        json(conn, %{ok: true})
     end
 
     def accept_by_faction_for_player(conn, params) do
