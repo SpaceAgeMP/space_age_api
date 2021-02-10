@@ -26,7 +26,7 @@ defmodule SpaceAgeApiWeb.ServersController do
     def connect_redirect(conn, params) do
         name = params["name"]
         server = Repo.one(from s in Server, where: s.name == ^name)
-        if server and not server.hidden do
+        if server != nil and not server.hidden do
             redirect(conn, to: Server.get_link(server))
         else
             conn
