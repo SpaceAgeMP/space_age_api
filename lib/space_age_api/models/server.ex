@@ -18,6 +18,10 @@ defmodule SpaceAgeApi.Models.Server do
     timestamps()
   end
 
+  def get_link(server) do
+    "steam://connect/#{server.ipport}"
+  end
+
   @doc false
   def changeset(server, attrs) do
     server

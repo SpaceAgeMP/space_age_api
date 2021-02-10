@@ -23,6 +23,18 @@ defmodule SpaceAgeApiWeb.ServersController do
         single_or_404(conn, "single.json", server)
     end
 
+    def connect(conn, params) do
+        name = params["name"]
+        server = Repo.one(from s in Server, where: s.name == ^name)
+        if server and not server.hidden do
+            redirect(conn, to: Server.get_link(server))
+        else
+            conn
+            |> put_resp_content_type("text/plain")
+            |> send_resp(404, "Server not found")
+        end
+    end
+
     def upsert_self(conn, params) do
         server = Server.changeset(conn.assigns[:auth_server], Util.map_decimal_to_integer(params))
         changeset_perform_insert(conn, server, on_conflict: {:replace_all_except, [:name, :authkey, :inserted_at]})

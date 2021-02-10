@@ -1,6 +1,7 @@
 defmodule SpaceAgeApiWeb.ServersView do
     @moduledoc false
     use SpaceAgeApiWeb, :view
+    alias SpaceAgeApi.Models.Server
     alias SpaceAgeApi.Util
 
     def render("multi.json", %{servers: servers}) do
@@ -22,6 +23,7 @@ defmodule SpaceAgeApiWeb.ServersView do
                 location: server.location,
                 hidden: server.hidden,
                 ipport: "",
+                link: "",
                 online: online,
             }
         else
@@ -33,6 +35,7 @@ defmodule SpaceAgeApiWeb.ServersView do
                 location: server.location,
                 hidden: server.hidden,
                 ipport: server.ipport,
+                link: Server.get_link(server),
                 online: online,
             }
         end
