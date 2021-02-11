@@ -4,6 +4,7 @@ defmodule SpaceAgeApiWeb.ServersView do
     alias SpaceAgeApi.Models.Server
     alias SpaceAgeApi.Models.Player
     alias SpaceAgeApiWeb.PlayersController
+    alias SpaceAgeApiWeb.PlayersView
 
     def render("multi.json", %{servers: servers}) do
         Enum.map(servers, &server_full/1)
@@ -28,7 +29,8 @@ defmodule SpaceAgeApiWeb.ServersView do
     end
 
     defp resolve_player(steamid) do
-        PlayersController.get_single(steamid, Player.public_fields)
+        player = PlayersController.get_single(steamid, Player.public_fields)
+        PlayersView.player_public(player)
     end
 
     defp resolve_players(players, true) do
