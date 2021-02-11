@@ -14,30 +14,16 @@ defmodule SpaceAgeApiWeb.ServersView do
 
     def server_full(server) do
         online = NaiveDateTime.diff(Util.naive_date_time(), server.updated_at) < 30
-        if server.hidden do
-            %{
-                name: server.name,
-                map: server.map,
-                players: server.players,
-                maxplayers: server.maxplayers,
-                location: server.location,
-                hidden: server.hidden,
-                ipport: "",
-                link: "",
-                online: online,
-            }
-        else
-            %{
-                name: server.name,
-                map: server.map,
-                players: server.players,
-                maxplayers: server.maxplayers,
-                location: server.location,
-                hidden: server.hidden,
-                ipport: server.ipport,
-                link: Server.get_link(server),
-                online: online,
-            }
-        end
+        %{
+            name: server.name,
+            map: server.map,
+            players: server.players,
+            maxplayers: server.maxplayers,
+            location: server.location,
+            hidden: server.hidden,
+            ipport: server.ipport,
+            link: Server.get_link(server),
+            online: online,
+        }
     end
 end
