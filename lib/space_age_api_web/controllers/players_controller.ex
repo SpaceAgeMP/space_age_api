@@ -19,11 +19,11 @@ defmodule SpaceAgeApiWeb.PlayersController do
     end
 
     def get_full(conn, params) do
-        get_single(conn, params, "single_full.json")
+        get_single_show(conn, params, "single_full.json")
     end
 
     def get(conn, params) do
-        get_single(conn, params, "single.json", [:steamid, :name, :score, :playtime, :faction_name, :is_faction_leader])
+        get_single_show(conn, params, "single.json", Player.public_fields)
     end
 
     def upsert(conn, params) do
@@ -33,9 +33,29 @@ defmodule SpaceAgeApiWeb.PlayersController do
 
     def make_jwt(conn, params) do
         steamid = params["steamid"]
-        player = Repo.one(build_query(steamid, [:steamid, :faction_name, :is_faction_leader]))
-
+        player = get_single(steamid, [:steamid, :faction_name, :is_faction_leader])
         make_jwt_internal(conn, player)
+    end
+
+    defp get_single_show(conn, params, template, select \\ nil) do
+        steamid = params["steamid"]
+        player = get_single(steamid, select)
+        single_or_404(conn, template, player)
+    end
+
+    def build_query(steamid, select) do
+        query = from p in Player,
+            where: p.steamid == ^steamid
+        if select do
+            query
+            |> select(^select)
+        else
+            query
+        end
+    end
+
+    def get_single(steamid, select \\ nil) do
+        Repo.one(build_query(steamid, select))
     end
 
     defp make_jwt_internal(conn, player) do
@@ -60,22 +80,5 @@ defmodule SpaceAgeApiWeb.PlayersController do
             faction_name: player.faction_name,
             is_faction_leader: player.is_faction_leader,
         })
-    end
-
-    defp build_query(steamid, select) do
-        query = from p in Player,
-                where: p.steamid == ^steamid
-        if select do
-            query
-            |> select(^select)
-        else
-            query
-        end
-    end
-
-    defp get_single(conn, params, template, select \\ nil) do
-        steamid = params["steamid"]
-        player = Repo.one(build_query(steamid, select))
-        single_or_404(conn, template, player)
     end
 end
