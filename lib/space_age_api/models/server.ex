@@ -9,7 +9,7 @@ defmodule SpaceAgeApi.Models.Server do
     field :authkey, :string
     field :name, :string
     field :map, :string
-    field :players, :integer
+    field :players, {:array, :string}
     field :maxplayers, :integer
     field :location, :string
     field :ipport, :string
