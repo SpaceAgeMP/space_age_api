@@ -43,7 +43,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
         single_or_404(conn, template, player)
     end
 
-    def build_query(steamid, select) do
+    defp build_query(steamid, select) do
         query = from p in Player,
             where: p.steamid == ^steamid
         if select do
@@ -54,7 +54,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
         end
     end
 
-    def get_single(steamid, select \\ nil) do
+    defp get_single(steamid, select) do
         Repo.one(build_query(steamid, select))
     end
 
