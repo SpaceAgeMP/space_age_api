@@ -4,8 +4,9 @@ defmodule SpaceAgeApiWeb.RabbitMQController do
     import Ecto.Query
     alias SpaceAgeApi.Models.Server
 
+    plug Plug.Parsers, parsers: [:urlencoded]
+
     def user(conn, params) do
-        IO.inspect(params)
         username = params["username"]
         password = params["password"]
 
