@@ -5,6 +5,7 @@ defmodule SpaceAgeApiWeb.RabbitMQController do
     alias SpaceAgeApi.Models.Server
 
     def user(conn, params) do
+        IO.inspect(params)
         username = params["username"]
         password = params["password"]
 
