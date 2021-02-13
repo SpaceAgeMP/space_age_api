@@ -34,5 +34,9 @@ defmodule SpaceAgeApiWeb.Router do
     put "/servers/self", ServersController, :upsert_self
     get "/servers/:name", ServersController, :get
     get "/servers/:name/connect", ServersController, :connect_redirect
+
+    post "/rabbitmq/user", RabbitMQController, :user
+    post "/rabbitmq/resource", RabbitMQController, :resource
+    post "/rabbitmq/topic", RabbitMQController, :topic
   end
 end
