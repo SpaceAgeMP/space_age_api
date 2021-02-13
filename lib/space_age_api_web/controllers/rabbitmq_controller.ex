@@ -22,6 +22,10 @@ defmodule SpaceAgeApiWeb.RabbitMQController do
         end
     end
 
+    def vhost(conn, params) do
+        allow_if_spaceage(conn, params)
+    end
+
     def resource(conn, params) do
         allow_if_spaceage(conn, params)
     end
