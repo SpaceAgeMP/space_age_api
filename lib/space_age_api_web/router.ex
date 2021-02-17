@@ -19,6 +19,7 @@ defmodule SpaceAgeApiWeb.Router do
     post "/players/:steamid/goodies/:id/use", GoodiesController, :use
 
     get "/factions", FactionsController, :list
+    get "/factions/:faction_name/members", FactionsController, :members
 
     post "/applications", ApplicationsController, :upsert
     post "/players", PlayersController, :upsert

@@ -6,6 +6,10 @@ defmodule SpaceAgeApiWeb.FactionsView do
         Enum.map(factions, &faction_all/1)
     end
 
+    def render("members.json", %{members: members}) do
+        Enum.map(members, &PlayersView.player_public/1)
+    end
+
     def faction_all(faction) do
         %{
             faction_name: faction.faction_name,
