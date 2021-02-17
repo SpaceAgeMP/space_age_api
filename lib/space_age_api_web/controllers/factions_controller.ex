@@ -23,8 +23,9 @@ defmodule SpaceAgeApiWeb.FactionsController do
             |> send_resp(400, "Freelancers cannot be listed")
             |> halt
         else
+            fields = Player.public_fields()
             res = Repo.all(from p in Player,
-                            select: Player.public_fields(),
+                            select: ^fields,
                             where: p.faction_name == ^faction_name)
             render(conn, "members.json", members: res)
         end

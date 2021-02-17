@@ -1,6 +1,7 @@
 defmodule SpaceAgeApiWeb.FactionsView do
     @moduledoc false
     use SpaceAgeApiWeb, :view
+    alias SpaceAgeApiWeb.PlayersView
 
     def render("multi.json", %{factions: factions}) do
         Enum.map(factions, &faction_all/1)
