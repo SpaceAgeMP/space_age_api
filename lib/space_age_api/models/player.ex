@@ -18,6 +18,9 @@ defmodule SpaceAgeApi.Models.Player do
     field :station_storage, :map
     field :score, :integer
     field :steamid, :string, primary_key: true
+    field :group, :string, default: "user"
+    field :is_banned, :boolean, default: false
+    field :ban_reason, :string
 
     timestamps()
   end
