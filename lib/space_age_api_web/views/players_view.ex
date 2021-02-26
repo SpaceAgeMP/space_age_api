@@ -14,6 +14,10 @@ defmodule SpaceAgeApiWeb.PlayersView do
         player_all(player)
     end
 
+    def render("multi_banned.json", %{players: players}) do
+        Enum.map(players, &player_banned/1)
+    end
+
     def render("jwt.json", %{data: token}) do
         %{
             token: token.token,
@@ -40,6 +44,18 @@ defmodule SpaceAgeApiWeb.PlayersView do
             research: player.research,
             score: player.score,
             steamid: player.steamid,
+            group: player.group,
+            is_banned: player.is_banned,
+            ban_reason: player.ban_reason,
+        }
+    end
+
+    def player_banned(player) do
+        %{
+            name: player.name,
+            steamid: player.steamid,
+            is_banned: player.is_banned,
+            ban_reason: player.ban_reason,
         }
     end
 

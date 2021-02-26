@@ -10,6 +10,7 @@ defmodule SpaceAgeApiWeb.Router do
     pipe_through :api
 
     get "/players", PlayersController, :list
+    get "/players/banned", PlayersController, :list_banned
     get "/players/:steamid", PlayersController, :get
     get "/players/:steamid/full", PlayersController, :get_full
     put "/players/:steamid", PlayersController, :upsert
