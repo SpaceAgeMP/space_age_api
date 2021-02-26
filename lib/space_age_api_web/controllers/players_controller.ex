@@ -7,7 +7,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
     alias SpaceAgeApi.Util
 
     plug SpaceAgeApi.Plug.Authenticate, [allow_server: true, allow_client: true, require_steamid: true] when action in [:get_full]
-    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:upsert, :make_jwt]
+    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:upsert, :ban, :make_jwt]
     plug SpaceAgeApi.Plug.Cache when action in [:list, :get]
 
     def list(conn, _params) do
@@ -38,6 +38,21 @@ defmodule SpaceAgeApiWeb.PlayersController do
         changeset_perform_upsert_by_steamid(conn, player)
     end
 
+    def ban(conn, params) do
+        steamid = params["steamid"]
+        ban_reason = params["ban_reason"]
+        banned_by = params["banned_by"]
+
+        player = get_single(steamid)
+        if player do
+            changeset = Player.changeset(player, %{
+                is_banned: true,
+                ban_reason: ban_reason,
+                banned_by: banned_by,
+            })
+        end
+    end
+
     def make_jwt(conn, params) do
         steamid = params["steamid"]
         player = get_single(steamid, [:steamid, :faction_name, :is_faction_leader])
@@ -61,7 +76,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
         end
     end
 
-    defp get_single(steamid, select) do
+    defp get_single(steamid, select \\ nil) do
         Repo.one(build_query(steamid, select))
     end
 
