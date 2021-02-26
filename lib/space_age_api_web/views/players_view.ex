@@ -47,6 +47,7 @@ defmodule SpaceAgeApiWeb.PlayersView do
             group: player.group,
             is_banned: player.is_banned,
             ban_reason: player.ban_reason,
+            banned_by: player.banned_by,
         }
     end
 
@@ -56,6 +57,7 @@ defmodule SpaceAgeApiWeb.PlayersView do
             steamid: player.steamid,
             is_banned: player.is_banned,
             ban_reason: player.ban_reason,
+            banned_by: player.banned_by,
         }
     end
 

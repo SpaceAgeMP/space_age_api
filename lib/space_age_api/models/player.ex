@@ -21,6 +21,7 @@ defmodule SpaceAgeApi.Models.Player do
     field :group, :string, default: "user"
     field :is_banned, :boolean, default: false
     field :ban_reason, :string
+    field :banned_by, :string
 
     timestamps()
   end
@@ -33,7 +34,7 @@ defmodule SpaceAgeApi.Models.Player do
   def changeset(player, attrs) do
     # credo:disable-for-lines:3
     player
-    |> cast(attrs, [:name, :steamid, :credits, :score, :is_faction_leader, :is_donator, :alliance_membership_expiry, :faction_name, :advancement_level, :research, :playtime, :station_storage, :group, :is_banned, :ban_reason])
+    |> cast(attrs, [:name, :steamid, :credits, :score, :is_faction_leader, :is_donator, :alliance_membership_expiry, :faction_name, :advancement_level, :research, :playtime, :station_storage, :group, :is_banned, :ban_reason, :banned_by])
     |> validate_required([:name, :steamid, :credits, :score, :is_faction_leader, :is_donator, :alliance_membership_expiry, :faction_name, :advancement_level, :research, :playtime, :station_storage, :group, :is_banned])
     |> put_change(:updated_at, Util.naive_date_time())
   end
