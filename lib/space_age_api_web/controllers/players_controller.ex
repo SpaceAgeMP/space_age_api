@@ -50,6 +50,11 @@ defmodule SpaceAgeApiWeb.PlayersController do
                 ban_reason: ban_reason,
                 banned_by: banned_by,
             })
+            changeset_perform_upsert_by_steamid(conn, changeset)
+        else
+            conn
+            |> put_resp_content_type("application/json")
+            |> send_resp(404, "{}")
         end
     end
 
