@@ -35,8 +35,17 @@ defmodule SpaceAgeApiWeb.PlayersController do
     end
 
     def upsert(conn, params) do
-        player = Player.changeset(%Player{}, Util.map_decimal_to_integer(params))
-        changeset_perform_upsert_by_steamid(conn, player)
+        steamid = params["steamid"]
+        player_db = get_single(steamid)
+        changeset = upsert_changeset(player_db, params)
+        changeset_perform_upsert_by_steamid(conn, changeset)
+    end
+
+    defp upsert_changeset(nil, params) do
+        upsert_changeset(%Player{}, params)
+    end
+    defp upsert_changeset(player, params) do
+        Player.changeset(player, Util.map_decimal_to_integer(params))
     end
 
     def ban(conn, params) do
