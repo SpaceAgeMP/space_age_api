@@ -21,7 +21,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
 
     def list_banned(conn, _params) do
         render(conn, "multi_banned.json", players: Repo.all(from p in Player,
-            select: [:steamid, :name, :is_banned, :ban_reason],
+            select: [:steamid, :name, :is_banned, :ban_reason, :banned_by],
             where: p.is_banned == true,
             limit: 50))
     end
