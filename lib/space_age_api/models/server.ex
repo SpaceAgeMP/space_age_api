@@ -32,7 +32,7 @@ defmodule SpaceAgeApi.Models.Server do
   def changeset(server, attrs) do
     server
     |> cast(attrs, [:name, :authkey, :map, :players, :maxplayers, :location, :ipport, :hidden, :rcon_password, :steam_account_token])
-    |> validate_required([:name, :authkey, :map, :players, :maxplayers, :location, :ipport, :hidden, :rcon_password, :steam_account_token])
+    |> validate_required([:name, :authkey, :map, :players, :maxplayers, :location, :ipport, :hidden])
     |> unique_constraint(:name)
     |> unique_constraint(:authkey)
     |> put_change(:updated_at, Util.naive_date_time())
