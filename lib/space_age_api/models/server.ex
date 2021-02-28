@@ -14,6 +14,8 @@ defmodule SpaceAgeApi.Models.Server do
     field :location, :string
     field :ipport, :string
     field :hidden, :boolean
+    field :rcon_password, :string
+    field :steam_account_token, :string
 
     timestamps()
   end
@@ -29,8 +31,8 @@ defmodule SpaceAgeApi.Models.Server do
   @doc false
   def changeset(server, attrs) do
     server
-    |> cast(attrs, [:name, :authkey, :map, :players, :maxplayers, :location, :ipport, :hidden])
-    |> validate_required([:name, :authkey, :map, :players, :maxplayers, :location, :ipport, :hidden])
+    |> cast(attrs, [:name, :authkey, :map, :players, :maxplayers, :location, :ipport, :hidden, :rcon_password, :steam_account_token])
+    |> validate_required([:name, :authkey, :map, :players, :maxplayers, :location, :ipport, :hidden, :rcon_password, :steam_account_token])
     |> unique_constraint(:name)
     |> unique_constraint(:authkey)
     |> put_change(:updated_at, Util.naive_date_time())

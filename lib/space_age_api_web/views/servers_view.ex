@@ -8,11 +8,29 @@ defmodule SpaceAgeApiWeb.ServersView do
     import Ecto.Query
 
     def render("multi.json", %{servers: servers}) do
-        Enum.map(servers, &server_full/1)
+        Enum.map(servers, &server_public/1)
     end
 
     def render("single.json", %{data: server}) do
+        server_public(server)
+    end
+
+    def render("single_full.json", %{data: server}) do
         server_full(server)
+    end
+
+    def server_public(server, do_resolve \\ true) do
+        %{
+            name: server.name,
+            map: server.map,
+            players: resolve_players(server.players, do_resolve),
+            maxplayers: server.maxplayers,
+            location: server.location,
+            hidden: server.hidden,
+            ipport: server.ipport,
+            link: Server.get_link(server),
+            online: Server.is_online(server),
+        }
     end
 
     def server_full(server, do_resolve \\ true) do
@@ -24,6 +42,8 @@ defmodule SpaceAgeApiWeb.ServersView do
             location: server.location,
             hidden: server.hidden,
             ipport: server.ipport,
+            rcon_password: server.rcon_password,
+            steam_account_token: server.steam_account_token,
             link: Server.get_link(server),
             online: Server.is_online(server),
         }

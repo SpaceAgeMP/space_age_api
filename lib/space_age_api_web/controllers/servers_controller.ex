@@ -20,7 +20,7 @@ defmodule SpaceAgeApiWeb.ServersController do
 
     def get_self(conn, _params) do
         server = conn.assigns[:auth_server]
-        single_or_404(conn, "single.json", server)
+        single_or_404(conn, "single_full.json", server)
     end
 
     def connect_redirect(conn, params) do
