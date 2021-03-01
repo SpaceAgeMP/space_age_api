@@ -33,6 +33,8 @@ defmodule SpaceAgeApi.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:sentry, "~> 8.0"},
+      {:hackney, "~> 1.8"},
       {:phoenix, "~> 1.5.3"},
       {:phoenix_ecto, "~> 4.0"},
       {:ecto_sql, "~> 3.1"},

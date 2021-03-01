@@ -23,6 +23,11 @@ sentry_dsn_srcds = System.get_env("SENTRY_DSN_SRCDS") ||
     environment variable SENTRY_DSN_SRCDS is missing.
     """
 
+sentry_dsn_api = System.get_env("SENTRY_DSN_API") ||
+    raise """
+    environment variable SENTRY_DSN_API is missing.
+    """
+
 config :space_age_api, SpaceAgeApi.Repo,
   # ssl: true,
   url: database_url,
@@ -37,6 +42,9 @@ config :joken,
 
 config :space_age_api,
   sentry_dsn_srcds: sentry_dsn_srcds
+
+config :sentry,
+  dsn: sentry_dsn_api
 
 # ## Using releases (Elixir v1.9+)
 #
