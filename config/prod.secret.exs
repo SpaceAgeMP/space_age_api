@@ -11,11 +11,6 @@ database_url =
     For example: ecto://USER:PASS@HOST/DATABASE
     """
 
-config :space_age_api, SpaceAgeApi.Repo,
-  # ssl: true,
-  url: database_url,
-  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
-
 secret_key_base =
   System.get_env("SECRET_KEY_BASE") ||
     raise """
@@ -23,11 +18,25 @@ secret_key_base =
     You can generate one by calling: mix phx.gen.secret
     """
 
+sentry_dsn_srcds = System.get_env("SENTRY_DSN_SRCDS") ||
+    raise """
+    environment variable SENTRY_DSN_SRCDS is missing.
+    """
+
+config :space_age_api, SpaceAgeApi.Repo,
+  # ssl: true,
+  url: database_url,
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
+
 config :space_age_api, SpaceAgeApiWeb.Endpoint,
   http: [ip: {127,0,0,1}, port: String.to_integer(System.get_env("PORT") || "4000")],
   secret_key_base: secret_key_base
 
-  config :joken, default_signer: secret_key_base
+config :joken,
+  default_signer: secret_key_base
+
+config :space_age_api,
+  sentry_dsn_srcds: sentry_dsn_srcds
 
 # ## Using releases (Elixir v1.9+)
 #

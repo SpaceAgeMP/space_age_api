@@ -8,7 +8,8 @@
 use Mix.Config
 
 config :space_age_api,
-  ecto_repos: [SpaceAgeApi.Repo]
+  ecto_repos: [SpaceAgeApi.Repo],
+  sentry_dsn_srcds: ""
 
 # Configures the endpoint
 config :space_age_api, SpaceAgeApiWeb.Endpoint,
