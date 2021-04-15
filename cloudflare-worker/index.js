@@ -12,14 +12,20 @@ async function apiFetch(url, origin, ip) {
         },
     });
 
-    let data = await res.text();
-    try {
-        data = JSON.parse(data);
-    } catch { }
-
+    const contentType = res.headers.get('Content-Type');
+    const contentTypeReal = (contentType || 'text/plain').split(';')[0];
+    let data;
+    if (contentTypeReal === 'application/json') {
+        data = await res.json();
+    } else {
+        data = await res.text();
+    }
     return {
         response: {
             status: res.status,
+            headers: {
+                ['content-type']: contentType,
+            },
             data: data,
         },
         cache: res.headers.get('Cache-Control'),
@@ -50,7 +56,20 @@ async function handleRequest(request) {
         .filter(route => route.startsWith('/v2/'))
         .map(route => 
             apiFetch(route, origin, ip)
-            .then(res => { apiFetches.set(route, res); })
+            .then(
+                res => {
+                    apiFetches.set(route, res);
+                },
+                err => { 
+                    apiFetches.set(route, {
+                        status: 599,
+                        headers: {
+                            'content-type': 'text/plain',
+                        },
+                        data: err.message,
+                    });
+                },
+            )
         ),
     );
 

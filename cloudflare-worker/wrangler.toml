@@ -1,6 +1,6 @@
 name = "spaceage-api-worker"
 type = "javascript"
 account_id = "2e8e7eac664f550b078878710b3283d5"
-workers_dev = true
+workers_dev = false
 route = "https://api.spaceage.mp/cdn/*"
 zone_id = "5109bcadaafa0c52543f4cabd0680598"
