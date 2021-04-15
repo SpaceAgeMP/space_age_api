@@ -19,7 +19,7 @@ async function apiFetch(url, origin, ip) {
 
     return {
         response: {
-            code: res.status,
+            status: res.status,
             data: data,
         },
         cache: res.headers.get('Cache-Control'),
@@ -37,10 +37,6 @@ async function handleRequest(request) {
 
     if (request.method !== 'GET') {
         return new Response('Invalid method', { status: 405 });
-    }
-
-    if (origin !== ALLOWED_ORIGIN) {
-        return new Response('Invalid caller', { status: 403 });
     }
 
     const routes = [...new Set(url.searchParams.getAll('run'))];
@@ -80,7 +76,6 @@ async function handleRequest(request) {
             'Cache-Control': cacheHeader,
             'Access-Control-Allow-Methods': 'GET',
             'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
-            'Vary': 'Origin',
         },
     });
 }
