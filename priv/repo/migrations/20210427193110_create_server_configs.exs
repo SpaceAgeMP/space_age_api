@@ -2,7 +2,7 @@ defmodule SpaceAgeApi.Repo.Migrations.CreateServerConfigs do
     use Ecto.Migration
   
     def change do
-      create table(:servers) do
+      create table(:server_configs) do
         add :name, :string
         add :authkey, :string, primary_key: true
         add :location, :string, null: false, default: "N/A"
@@ -13,7 +13,7 @@ defmodule SpaceAgeApi.Repo.Migrations.CreateServerConfigs do
         timestamps()
       end
   
-      create unique_index(:servers, [:name])
+      create unique_index(:server_configs, [:name])
     end
   end
   
