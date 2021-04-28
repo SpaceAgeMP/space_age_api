@@ -9,7 +9,6 @@ defmodule SpaceAgeApi.Models.ServerConfig do
       field :authkey, :string
       field :name, :string
       field :location, :string
-      field :hidden, :boolean
       field :rcon_password, :string
       field :steam_account_token, :string
   
