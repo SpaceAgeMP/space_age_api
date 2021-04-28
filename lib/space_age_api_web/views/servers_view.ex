@@ -43,7 +43,7 @@ defmodule SpaceAgeApiWeb.ServersView do
             name: server.name,
             map: server.map,
             players: resolve_players(server.players, do_resolve),
-            location: server.config.location,
+            #location: server.config.location,
             maxplayers: server.maxplayers,
             hidden: server.hidden,
             ipport: server.ipport,
