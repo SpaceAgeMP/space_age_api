@@ -10,7 +10,7 @@ defmodule SpaceAgeApiWeb.ServersView do
     import Ecto.Query
 
     def render("multi_with_config.json", %{servers: servers}) do
-        Enum.map(servers, &server_public/1)
+        Enum.map(servers, &server_public_with_config/1)
     end
 
     def render("single_with_config.json", %{data: server}) do

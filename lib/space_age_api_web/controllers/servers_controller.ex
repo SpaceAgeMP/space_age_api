@@ -13,14 +13,17 @@ defmodule SpaceAgeApiWeb.ServersController do
     def list(conn, _params) do
         render(conn, "multi_with_config.json", servers: Repo.all(from s in Server,
             where: s.hidden == false,
-            join: c in ServerConfig, on: s.name == c.name
+            join: c in ServerConfig, on: s.name == c.name,
+            select_merge: %{location: c.location}
         ))
     end
 
     def get(conn, params) do
         name = params["name"]
         single_or_404(conn, "single_with_config.json", Repo.one(from s in Server,
-            where: s.name == ^name
+            where: s.name == ^name,
+            join: c in ServerConfig, on: s.name == c.name,
+            select_merge: %{location: c.location}
         ))
     end
 
