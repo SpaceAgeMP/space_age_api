@@ -33,7 +33,7 @@ defmodule SpaceAgeApiWeb.Router do
     post "/factions/:faction_name/applications/:steamid/accept", ApplicationsController, :accept_by_faction_for_player
 
     get "/servers", ServersController, :list
-    get "/servers/self", ServersController, :get_self
+    get "/servers/self/config", ServersController, :get_self_config
     put "/servers/self", ServersController, :upsert_self
     get "/servers/:name", ServersController, :get
     get "/servers/:name/connect", ServersController, :connect_redirect

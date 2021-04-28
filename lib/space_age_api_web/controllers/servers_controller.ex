@@ -18,7 +18,7 @@ defmodule SpaceAgeApiWeb.ServersController do
         single_or_404(conn, "single.json", Repo.one(from s in Server, where: s.name == ^name))
     end
 
-    def get_self(conn, _params) do
+    def get_self_config(conn, _params) do
         server = conn.assigns[:auth_server]
         single_or_404(conn, "single_full.json", server)
     end
@@ -36,7 +36,10 @@ defmodule SpaceAgeApiWeb.ServersController do
     end
 
     def upsert_self(conn, params) do
-        server = Server.changeset(conn.assigns[:auth_server], Util.map_decimal_to_integer(params))
-        changeset_perform_insert(conn, server, on_conflict: {:replace_all_except, [:name, :authkey, :inserted_at]})
+        server_config = conn.assigns[:auth_server]
+        server = Server.changeset(%Server{
+            name: server_config.name,
+        }, Util.map_decimal_to_integer(params))
+        changeset_perform_insert(conn, server, on_conflict: {:replace_all_except, [:name, :inserted_at]})
     end
 end

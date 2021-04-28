@@ -7,7 +7,7 @@ defmodule SpaceAgeApi.Plug.Authenticate do
     """
     import Plug.Conn
     import Ecto.Query
-    alias SpaceAgeApi.Models.Server
+    alias SpaceAgeApi.Models.ServerConfig
     alias SpaceAgeApi.Repo
 
     def init(options), do: options
@@ -57,7 +57,7 @@ defmodule SpaceAgeApi.Plug.Authenticate do
     end
 
     defp verify_auth_header(conn, "server", token) do
-        server = Repo.one(from s in Server,
+        server = Repo.one(from s in ServerConfig,
                             where: s.authkey == ^token)
         if server do
             conn

@@ -3,8 +3,7 @@ defmodule SpaceAgeApi.Repo.Migrations.CreateServers do
 
   def change do
     create table(:servers) do
-      add :name, :string
-      add :authkey, :string, primary_key: true
+      add :name, :string, primary_key: true
       add :map, :string, null: false, default: "sb_gooniverse_v4"
       add :location, :string, null: false, default: "N/A"
       add :players, :map, null: false
@@ -14,7 +13,5 @@ defmodule SpaceAgeApi.Repo.Migrations.CreateServers do
 
       timestamps()
     end
-
-    create unique_index(:servers, [:name])
   end
 end
