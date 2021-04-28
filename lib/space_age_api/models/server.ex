@@ -13,6 +13,8 @@ defmodule SpaceAgeApi.Models.Server do
     field :ipport, :string
     field :hidden, :boolean
 
+    field :location, :string, virtual: true
+  
     timestamps()
   end
 
