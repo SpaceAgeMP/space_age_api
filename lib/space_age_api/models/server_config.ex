@@ -18,8 +18,8 @@ defmodule SpaceAgeApi.Models.ServerConfig do
     @doc false
     def changeset(server, attrs) do
       server
-      |> cast(attrs, [:name, :authkey, :location, :hidden, :rcon_password, :steam_account_token])
-      |> validate_required([:name, :authkey, :location, :hidden])
+      |> cast(attrs, [:name, :authkey, :location, :rcon_password, :steam_account_token])
+      |> validate_required([:name, :authkey, :location])
       |> unique_constraint(:name)
       |> unique_constraint(:authkey)
       |> put_change(:updated_at, Util.naive_date_time())

@@ -27,8 +27,8 @@ defmodule SpaceAgeApi.Models.Server do
   @doc false
   def changeset(server, attrs) do
     server
-    |> cast(attrs, [:name, :map, :players, :maxplayers, :location, :ipport, :hidden])
-    |> validate_required([:name, :map, :players, :maxplayers, :location, :ipport, :hidden])
+    |> cast(attrs, [:name, :map, :players, :maxplayers, :ipport, :hidden])
+    |> validate_required([:name, :map, :players, :maxplayers, :ipport, :hidden])
     |> unique_constraint(:name)
     |> put_change(:updated_at, Util.naive_date_time())
   end
