@@ -10,17 +10,21 @@ defmodule SpaceAgeApiWeb.ServersController do
     plug SpaceAgeApi.Plug.Cache, [time: 5] when action in [:list, :get]
 
     def list(conn, _params) do
-        render(conn, "multi.json", servers: Repo.all(from s in Server, where: s.hidden == false))
+        render(conn, "multi_with_config.json", servers: Repo.all(from s in Server,
+            where: s.hidden == false
+        ))
     end
 
     def get(conn, params) do
         name = params["name"]
-        single_or_404(conn, "single.json", Repo.one(from s in Server, where: s.name == ^name))
+        single_or_404(conn, "single_with_config.json", Repo.one(from s in Server,
+            where: s.name == ^name
+        ))
     end
 
     def get_self_config(conn, _params) do
         server = conn.assigns[:auth_server]
-        single_or_404(conn, "single_full.json", server)
+        single_or_404(conn, "single_config.json", server)
     end
 
     def connect_redirect(conn, params) do

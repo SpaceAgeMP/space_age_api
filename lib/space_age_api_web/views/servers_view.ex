@@ -9,16 +9,20 @@ defmodule SpaceAgeApiWeb.ServersView do
     alias SpaceAgeApi.Repo
     import Ecto.Query
 
-    def render("multi.json", %{servers: servers}) do
-        Enum.map(servers, &server_public/1)
+    def render("multi_with_config.json", %{servers: servers}) do
+        Enum.map(servers, &server_public_with_config/1)
+    end
+
+    def render("single_with_config.json", %{data: server}) do
+        server_public_with_config(server)
     end
 
     def render("single.json", %{data: server}) do
         server_public(server)
     end
 
-    def render("single_full.json", %{data: server}) do
-        server_full(server)
+    def render("single_config.json", %{data: server}) do
+        server_config(server)
     end
 
     def server_public(server, do_resolve \\ true) do
@@ -27,7 +31,6 @@ defmodule SpaceAgeApiWeb.ServersView do
             map: server.map,
             players: resolve_players(server.players, do_resolve),
             maxplayers: server.maxplayers,
-            location: server.location,
             hidden: server.hidden,
             ipport: server.ipport,
             link: Server.get_link(server),
@@ -35,20 +38,28 @@ defmodule SpaceAgeApiWeb.ServersView do
         }
     end
 
-    def server_full(server, do_resolve \\ true) do
+    def server_public_with_config(server, do_resolve \\ true) do
         %{
             name: server.name,
             map: server.map,
             players: resolve_players(server.players, do_resolve),
+            location: server.config.location,
             maxplayers: server.maxplayers,
-            location: server.location,
             hidden: server.hidden,
+            ipport: server.ipport,
+            link: Server.get_link(server),
+            online: Server.is_online(server),
+        }
+    end
+
+    def server_config(server) do
+        %{
+            name: server.name,
+            location: server.location,
             ipport: server.ipport,
             rcon_password: server.rcon_password,
             steam_account_token: server.steam_account_token,
             sentry_dsn: @sentry_dsn_srcds,
-            link: Server.get_link(server),
-            online: Server.is_online(server),
         }
     end
 
