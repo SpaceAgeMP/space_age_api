@@ -56,7 +56,6 @@ defmodule SpaceAgeApiWeb.ServersView do
         %{
             name: server.name,
             location: server.location,
-            ipport: server.ipport,
             rcon_password: server.rcon_password,
             steam_account_token: server.steam_account_token,
             sentry_dsn: @sentry_dsn_srcds,
