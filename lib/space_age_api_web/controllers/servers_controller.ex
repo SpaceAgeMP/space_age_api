@@ -12,7 +12,8 @@ defmodule SpaceAgeApiWeb.ServersController do
 
     def list(conn, _params) do
         render(conn, "multi_with_config.json", servers: Repo.all(from s in Server,
-            where: s.hidden == false
+            where: s.hidden == false,
+            join: c in ServerConfig, on: s.name == c.name
         ))
     end
 
