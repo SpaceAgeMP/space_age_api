@@ -7,7 +7,7 @@ defmodule SpaceAgeApiWeb.ServersController do
     alias SpaceAgeApi.Repo
     alias SpaceAgeApi.Util
 
-    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:get_self, :upsert_self]
+    plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:get_self_config, :upsert_self]
     plug SpaceAgeApi.Plug.Cache, [time: 5] when action in [:list, :get]
 
     def list(conn, _params) do
