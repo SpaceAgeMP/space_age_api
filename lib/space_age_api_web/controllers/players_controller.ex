@@ -71,7 +71,15 @@ defmodule SpaceAgeApiWeb.PlayersController do
     def make_jwt(conn, params) do
         steamid = params["steamid"]
         player = get_single(steamid, [:steamid, :faction_name, :is_faction_leader])
-        make_jwt_internal(conn, player)
+        if player do
+            make_jwt_internal(conn, player)
+        else
+            make_jwt_internal(conn, %{
+                steamid: steamid,
+                faction_name: "freelancer",
+                is_faction_leader: false,
+            })
+        end
     end
 
     defp get_single_show(conn, params, template, select \\ nil) do
@@ -95,11 +103,6 @@ defmodule SpaceAgeApiWeb.PlayersController do
         Repo.one(build_query(steamid, select))
     end
 
-    defp make_jwt_internal(conn, nil) do
-        conn
-        |> put_resp_content_type("application/json")
-        |> send_resp(404, "{}")
-    end
     defp make_jwt_internal(conn, player) do
         valid_time = SpaceAgeApi.Token.default_exp()
         expiry = System.system_time(:second) + valid_time
