@@ -3,26 +3,26 @@ const ALLOWED_ORIGIN = 'https://static.spaceage.mp';
 const NOCACHE = 'private, no-cache, no-store, max-age=0';
 
 interface InnerResponse {
+  cache: string;
   response: {
-    status: number;
+    data: string;
     headers: {
       [key: string]: string;
     };
-    data: string;
+    status: number;
   },
-  cache: string;
 }
 
 function stubResponse(status: number, data: string): InnerResponse {
   return {
+    cache: NOCACHE,
     response: {
-      status,
       data,
+      status,
       headers: {
         'content-type': 'text/plain',
       },
     },
-    cache: NOCACHE,
   };
 }
 
@@ -58,14 +58,14 @@ async function apiFetch(url: string, origin: string | null, ip: string): Promise
   }
 
   return {
+    cache: res.headers.get('Cache-Control') || NOCACHE,
     response: {
-      status: res.status,
+      data,
       headers: {
         'content-type': contentType || 'text/plain',
       },
-      data: data,
+      status: res.status,
     },
-    cache: res.headers.get('Cache-Control') || NOCACHE,
   };
 }
 
@@ -119,12 +119,12 @@ export async function handleRequest(request: Request): Promise<Response> {
   }
 
   return new Response(JSON.stringify(response), {
-    status: 200,
     headers: {
       'Content-Type': 'application/json',
       'Cache-Control': cacheHeader,
       'Access-Control-Allow-Methods': 'GET',
       'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
     },
+    status: 200,
   });
 }
