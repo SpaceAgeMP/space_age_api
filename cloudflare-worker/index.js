@@ -1,11 +1,36 @@
-addEventListener('fetch', event => {
-    event.respondWith(handleRequest(event.request));
-});
-
 const NOTSET = Symbol('NOTSET');
 const ALLOWED_ORIGIN = 'https://static.spaceage.mp';
+const NOCACHE = 'private, no-cache, no-store, max-age=0';
+
+function stubResponse(status, data) {
+    return {
+        response:{
+            status,
+            data,
+            headers: {
+                'content-type': 'text/plain',
+            },
+        },
+        cache: NOCACHE,
+    };
+}
+
+function validUrl(url) {
+    if (!url.startsWith('/v2/')) {
+        return false;
+    }
+    if (url.includes('/.')) {
+        return false;
+    }
+    return true;
+}
 
 async function apiFetch(url, origin, ip) {
+    if (!validUrl(url)) {
+        return stubResponse(400, 'Bad/disallowed route');
+    }
+
+
     const res = await fetch(`https://api.spaceage.mp${url}`, {
         headers: {
             'Client-ID': `SpaceAge/Aggrgator [${origin}] (${ip})`,
@@ -20,6 +45,7 @@ async function apiFetch(url, origin, ip) {
     } else {
         data = await res.text();
     }
+
     return {
         response: {
             status: res.status,
@@ -53,22 +79,14 @@ async function handleRequest(request) {
     const apiFetches = new Map();
     await Promise.all(
         routes
-        .filter(route => route.startsWith('/v2/'))
-        .filter(route => !route.includes('/.'))
         .map(route => 
             apiFetch(route, origin, ip)
             .then(
                 res => {
                     apiFetches.set(route, res);
                 },
-                err => { 
-                    apiFetches.set(route, {
-                        status: 599,
-                        headers: {
-                            'content-type': 'text/plain',
-                        },
-                        data: err.message,
-                    });
+                err => {
+                    apiFetches.set(route, stubResponse(599, err.message));
                 },
             )
         ),
@@ -99,3 +117,7 @@ async function handleRequest(request) {
         },
     });
 }
+
+addEventListener('fetch', event => {
+    event.respondWith(handleRequest(event.request));
+});
