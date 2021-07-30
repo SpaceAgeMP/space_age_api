@@ -4,7 +4,7 @@ const NOCACHE = 'private, no-cache, no-store, max-age=0';
 
 function stubResponse(status, data) {
     return {
-        response:{
+        response: {
             status,
             data,
             headers: {
