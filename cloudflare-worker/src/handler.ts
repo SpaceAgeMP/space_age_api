@@ -61,7 +61,7 @@ async function apiFetch(url: string, origin: string | null, ip: string): Promise
     response: {
       status: res.status,
       headers: {
-        ['content-type']: contentType || 'text/plain',
+        'content-type': contentType || 'text/plain',
       },
       data: data,
     },
