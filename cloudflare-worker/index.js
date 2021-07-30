@@ -54,7 +54,7 @@ async function handleRequest(request) {
     await Promise.all(
         routes
         .filter(route => route.startsWith('/v2/'))
-        .filter(route => !route.startsWith('/.'))
+        .filter(route => !route.includes('/.'))
         .map(route => 
             apiFetch(route, origin, ip)
             .then(
