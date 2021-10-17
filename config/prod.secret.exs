@@ -34,7 +34,7 @@ config :space_age_api, SpaceAgeApi.Repo,
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 
 config :space_age_api, SpaceAgeApiWeb.Endpoint,
-  http: [ip: {127,0,0,1}, port: String.to_integer(System.get_env("PORT") || "4000")],
+  http: [ip: {0,0,0,0}, port: String.to_integer(System.get_env("PORT") || "4000")],
   secret_key_base: secret_key_base
 
 config :joken,
