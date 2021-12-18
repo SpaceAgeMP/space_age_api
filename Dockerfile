@@ -1,5 +1,6 @@
 FROM elixir:alpine
 
+RUN apk --no-cache add curl
 RUN adduser -D api
 
 USER api:api
