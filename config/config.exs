@@ -5,7 +5,7 @@
 # is restricted to this project.
 
 # General application configuration
-use Mix.Config
+import Config
 
 config :space_age_api,
   ecto_repos: [SpaceAgeApi.Repo],

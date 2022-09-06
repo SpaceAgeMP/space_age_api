@@ -1,6 +1,4 @@
 defmodule SpaceAgeApiWeb.ServersView do
-    @sentry_dsn_srcds Application.fetch_env!(:space_age_api, :sentry_dsn_srcds)
-
     @moduledoc false
     use SpaceAgeApiWeb, :view
     alias SpaceAgeApi.Models.Server
@@ -58,7 +56,7 @@ defmodule SpaceAgeApiWeb.ServersView do
             location: server.location,
             rcon_password: server.rcon_password,
             steam_account_token: server.steam_account_token,
-            sentry_dsn: @sentry_dsn_srcds,
+            sentry_dsn: Application.fetch_env!(:space_age_api, :sentry_dsn_srcds),
         }
     end
 
