@@ -35,7 +35,7 @@ defmodule SpaceAgeApi.MixProject do
     [
       {:sentry, "~> 8.0"},
       {:hackney, "~> 1.8"},
-      {:phoenix, "~> 1.5.3"},
+      {:phoenix, "~> 1.6.0"},
       {:phoenix_ecto, "~> 4.0"},
       {:ecto_sql, "~> 3.1"},
       {:myxql, ">= 0.0.0"},
