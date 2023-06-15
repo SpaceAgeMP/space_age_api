@@ -1,4 +1,4 @@
-defmodule SpaceAgeApi.Repo.Migrations.AddUlibColumns do
+defmodule SpaceAgeApi.Repo.Migrations.RemoveDonationStuff do
   use Ecto.Migration
 
   def change do
