@@ -12,4 +12,4 @@ COPY --chown=api:api . /home/api/app
 ENV MIX_ENV=prod
 RUN ./build.sh
 
-ENTRYPOINT [ "mix", "phx.server" ]
+ENTRYPOINT [ "sh", "/home/api/app/run.sh" ]
