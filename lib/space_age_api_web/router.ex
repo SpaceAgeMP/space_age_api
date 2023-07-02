@@ -17,9 +17,6 @@ defmodule SpaceAgeApiWeb.Router do
     post "/players/:steamid/jwt", PlayersController, :make_jwt
     post "/players/:steamid/ban", PlayersController, :ban
 
-    get "/players/:steamid/goodies", GoodiesController, :list
-    post "/players/:steamid/goodies/:id/use", GoodiesController, :use
-
     get "/factions", FactionsController, :list
     get "/factions/:faction_name/members", FactionsController, :members
 
