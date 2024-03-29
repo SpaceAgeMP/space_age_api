@@ -22,12 +22,10 @@ defmodule SpaceAgeApiWeb.DiscordController do
       [timestamp | _] = get_req_header(conn, "x-signature-timestamp")
       [signature | _] = get_req_header(conn, "x-signature-ed25519")
 
-      verified = :crypto.verify(
-                      :eddsa,
-                      :sha256,
-                      "#{timestamp}#{conn.assigns[:raw_body]}",
+      verified = Ed25519.valid_signature?(
                       from_hex(signature),
-                      [from_hex(Application.fetch_env!(:space_age_api, :discord_public_key)), :ed25519]
+                      "#{timestamp}#{conn.assigns[:raw_body]}",
+                      from_hex(Application.fetch_env!(:space_age_api, :discord_public_key))
                   )
 
       if verified do
