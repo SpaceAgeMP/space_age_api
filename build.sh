@@ -11,4 +11,3 @@ mix local.hex --force
 mix deps.get
 mix local.rebar --force
 mix do compile
-mix credo --strict

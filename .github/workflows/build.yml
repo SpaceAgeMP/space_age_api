@@ -1,14 +1,11 @@
-name: Publish Docker image
-on:
-  push:
-    branches:
-      - main
+name: Build and lint
+on: [push]
+
 jobs:
-  push_to_registry:
-    name: Push Docker image to GitHub Packages
+  build:
+    name: Build
     runs-on: ubuntu-latest
     permissions:
-      packages: write
       contents: read
     steps:
       - name: Check out the repo
@@ -19,11 +16,14 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build container image
+      - name: Build dev image
         uses: docker/build-push-action@v5
         with:
-          push: true
+          push: false
+          target: dev
           build-args: |
             GIT_REVISION=${{ github.sha }}
           tags: |
-            ghcr.io/spaceagemp/space_age_api/api:latest
+            spaceage_api_dev
+      - name: Run lint.sh in dev container
+        run: docker run -it --rm spaceage_api_dev ./lint.sh
