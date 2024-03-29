@@ -8,8 +8,9 @@ defmodule SpaceAgeApiWeb.DiscordController do
 
   def handle_interaction(conn, 2, %{
     "member" => %{"user" => %{"id" => user_id}},
-    "data" => %{"options" => [
-      %{"name" => "operation", "value" => operation},
+    "data" => %{
+      "options" => [
+        %{"name" => "operation", "value" => operation},
       ],
       "name" => "sa"
     },
