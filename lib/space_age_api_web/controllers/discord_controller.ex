@@ -35,7 +35,7 @@ defmodule SpaceAgeApiWeb.DiscordController do
       [signature | _] = get_req_header(conn, "x-signature-ed25519")
 
       current_time = System.system_time(:second)
-      if abs(current_time - timestamp) > 60 do
+      if abs(current_time - String.to_integer(timestamp)) > 60 do
         conn
         |> send_resp(403, "Timestamp too old")
         |> halt
