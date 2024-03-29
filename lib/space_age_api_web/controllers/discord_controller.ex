@@ -9,9 +9,10 @@ defmodule SpaceAgeApiWeb.DiscordController do
   def handle_interaction(conn, 2, %{
     "member" => %{"user" => %{"id" => user_id}},
     "data" => %{"options" => [
-      %{"name" => "operation", "value" => operation}
-    ]},
-    "name" => "sa"
+      %{"name" => "operation", "value" => operation},
+      ],
+      "name" => "sa"
+    },
   }) do
     render(conn, "discord.json", type: 2, data: %{
       user_id: user_id,
@@ -21,7 +22,7 @@ defmodule SpaceAgeApiWeb.DiscordController do
 
   def handle_interaction(conn, 2, _data) do
     conn
-    |> send_resp(400, "Bad data")
+    |> send_resp(400, "Unhandled command or invalid parameters")
     |> halt
   end
 
