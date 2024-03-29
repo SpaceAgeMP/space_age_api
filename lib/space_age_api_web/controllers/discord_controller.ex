@@ -6,6 +6,24 @@ defmodule SpaceAgeApiWeb.DiscordController do
     render(conn, "discord.json", type: 1)
   end
 
+  def handle_interaction(conn, 2, %{
+    "member" => %{"user" => %{"id" => user_id}},
+    "data" => %{"options" => [
+      %{"name" => "operation", "value" => operation}
+    ]}
+  }) do
+    render(conn, "discord.json", type: 2, data: %{
+      user_id: user_id,
+      operation: operation
+    })
+  end
+
+  def handle_interaction(conn, 2, _data) do
+    conn
+    |> send_resp(400, "Bad data")
+    |> halt
+  end
+
   def handle_interaction(conn, type, _data) do
     conn
     |> send_resp(400, "Bad type: #{type}")
