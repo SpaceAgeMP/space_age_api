@@ -10,7 +10,8 @@ defmodule SpaceAgeApiWeb.DiscordController do
     "member" => %{"user" => %{"id" => user_id}},
     "data" => %{"options" => [
       %{"name" => "operation", "value" => operation}
-    ]}
+    ]},
+    "name" => "sa"
   }) do
     render(conn, "discord.json", type: 2, data: %{
       user_id: user_id,
