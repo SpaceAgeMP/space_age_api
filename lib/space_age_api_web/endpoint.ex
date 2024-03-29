@@ -16,6 +16,7 @@ defmodule SpaceAgeApiWeb.Endpoint do
   plug Plug.Parsers,
     parsers: [:json],
     pass: ["*/*"],
+    body_reader: {SpaceAgeApi.Plug.RawBodyReader, :read_body, []},
     json_decoder: Phoenix.json_library()
 
   plug Plug.MethodOverride

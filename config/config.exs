@@ -18,7 +18,7 @@ config :space_age_api, SpaceAgeApiWeb.Endpoint,
   render_errors: [view: SpaceAgeApiWeb.ErrorView, accepts: ~w(json)]
 
 config :space_age_api,
-  discord_public_key: "ca611202cf1c838cce8201f2dc6257ceba1feb5b7214c3ad96cdf939d9e0751f"
+  discord_public_key: 91538703886268823595864698159604427502483888689187063955187233768862585484575
 
 # Configures Elixir's Logger
 config :logger, :console,
