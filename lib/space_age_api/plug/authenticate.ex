@@ -69,7 +69,7 @@ defmodule SpaceAgeApi.Plug.Authenticate do
     end
     defp verify_auth_header(conn, "client", token) do
         {ok, claims} = SpaceAgeApi.Token.verify_and_validate(token)
-        if ok == :ok && claims["aud"] == "https://spaceage.mp/v2/clientauth" do
+        if ok == :ok && claims["aud"] == "https://api.spaceage.mp/v2/clientauth" do
             steamid = claims["sub"]
             server = claims["server"]
             faction_name = claims["faction_name"]
