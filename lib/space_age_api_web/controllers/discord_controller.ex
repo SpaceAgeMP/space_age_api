@@ -17,7 +17,8 @@ defmodule SpaceAgeApiWeb.DiscordController do
     },
   }) do
     render(conn, "discord.json", type: 4, data: %{
-      "content" => "The operation is #{operation} and the user id is #{user_id}"
+      "content" => "The operation is #{operation} and the user id is #{user_id}",
+      "flags" => 64
     })
   end
 
