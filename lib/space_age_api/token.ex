@@ -1,4 +1,7 @@
 defmodule SpaceAgeApi.Token do
+    @moduledoc """
+    Token configuration for SpaceAge API.
+    """
     use Joken.Config
 
     @default_exp 30 * 60

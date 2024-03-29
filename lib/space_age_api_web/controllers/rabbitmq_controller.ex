@@ -12,7 +12,7 @@ defmodule SpaceAgeApiWeb.RabbitMQController do
 
         server = Repo.one(from s in Server,
             where: s.name == ^username and s.authkey == ^password)
-        
+
         if server do
             conn
             |> send_resp(200, "allow spaceage_server")

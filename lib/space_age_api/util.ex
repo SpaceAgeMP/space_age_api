@@ -23,7 +23,7 @@ defmodule SpaceAgeApi.Util do
         end)
     end
 
-    def naive_date_time() do
+    def naive_date_time do
         NaiveDateTime.truncate(NaiveDateTime.utc_now, :second)
     end
 end

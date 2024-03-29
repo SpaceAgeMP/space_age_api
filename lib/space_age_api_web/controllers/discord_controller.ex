@@ -1,8 +1,7 @@
 defmodule SpaceAgeApiWeb.DiscordController do
   @moduledoc false
   use SpaceAgeApiWeb, :controller
-
-  @public_key Application.compile_env(:space_age_api, [:discord_public_key])
+  alias SpaceAgeApi.Plug.RawBodyReader
 
   def handle_interaction(conn, 1, _data) do
     render(conn, "discord.json", type: 1)
@@ -42,14 +41,14 @@ defmodule SpaceAgeApiWeb.DiscordController do
         |> send_resp(403, "Timestamp invalid")
         |> halt
       else
-        raw_body = SpaceAgeApi.Plug.RawBodyReader.get_raw_body(conn)
+        raw_body = RawBodyReader.get_raw_body(conn)
 
         verified = :crypto.verify(
                         :eddsa,
                         :sha256,
                         "#{timestamp}#{raw_body}",
                         Base.decode16!(signature, case: :mixed),
-                        [@public_key, :ed25519]
+                        [Application.compile_env(:space_age_api, [:discord_public_key]), :ed25519]
                     )
 
         if verified do

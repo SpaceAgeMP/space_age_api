@@ -14,7 +14,7 @@ defmodule SpaceAgeApi.Models.Server do
     field :hidden, :boolean
 
     field :location, :string, virtual: true
-  
+
     timestamps()
   end
 
