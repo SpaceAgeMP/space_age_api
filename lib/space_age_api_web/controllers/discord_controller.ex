@@ -26,8 +26,8 @@ defmodule SpaceAgeApiWeb.DiscordController do
                       :eddsa,
                       :sha256,
                       "#{timestamp}#{conn.assigns[:raw_body]}",
-                      Base.decode16!(signature, case: :mixed),
-                      [Application.fetch_env!(:space_age_api, :discord_public_key), :ed25519]
+                      from_hex(signature, case: :mixed),
+                      [from_hex(Application.fetch_env!(:space_age_api, :discord_public_key)), :ed25519]
                   )
 
       if verified do
@@ -38,4 +38,15 @@ defmodule SpaceAgeApiWeb.DiscordController do
           |> halt
       end
   end
+
+  defp from_hex(<<>>), do: ""
+
+  defp from_hex(s) do
+    size = div(byte_size(s), 2)
+    {n, ""} = s |> Integer.parse(16)
+    zero_pad(:binary.encode_unsigned(n), size)
+  end
+
+  defp zero_pad(s, size) when byte_size(s) == size, do: s
+  defp zero_pad(s, size) when byte_size(s) < size, do: zero_pad(<<0>> <> s, size)
 end
