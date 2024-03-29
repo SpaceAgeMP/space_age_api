@@ -48,7 +48,7 @@ defmodule SpaceAgeApiWeb.DiscordController do
                         :sha256,
                         "#{timestamp}#{raw_body}",
                         Base.decode16!(signature, case: :mixed),
-                        [Application.compile_env(:space_age_api, [:discord_public_key]), :ed25519]
+                        [Application.fetch_env!(:space_age_api, [:discord_public_key]), :ed25519]
                     )
 
         if verified do
