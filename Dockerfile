@@ -1,8 +1,9 @@
 FROM elixir:alpine AS base
+RUN adduser -D api
 
 RUN apk --no-cache add curl
 
-RUN mkdir -p /home/api/app
+RUN mkdir -p /home/api/app && chown -R api:api /home/api/app
 WORKDIR /home/api/app
 
 
@@ -12,7 +13,6 @@ ENTRYPOINT [ "/bin/sh" ]
 
 
 FROM base AS default
-RUN adduser -D api
 
 COPY --chown=api:api . /home/api/app
 USER api:api
