@@ -2,7 +2,7 @@ defmodule SpaceAgeApiWeb.DiscordController do
   @moduledoc false
   use SpaceAgeApiWeb, :controller
 
-  @public_key Application.compile_env(:space_age_api, [__MODULE__, :discord_public_key])
+  @public_key Application.compile_env(:space_age_api, [:discord_public_key])
 
   def handle_interaction(conn, 1, _data) do
     render(conn, "discord.json", type: 1)
