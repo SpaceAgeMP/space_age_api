@@ -56,7 +56,7 @@ defmodule SpaceAgeApiWeb.ServersView do
             location: server.location,
             rcon_password: server.rcon_password,
             steam_account_token: server.steam_account_token,
-            sentry_dsn: Application.fetch_env!(:space_age_api, [:sentry_dsn_srcds]),
+            sentry_dsn: Application.fetch_env!(:space_age_api, :sentry_dsn_srcds),
         }
     end
 
