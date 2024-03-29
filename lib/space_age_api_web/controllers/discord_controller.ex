@@ -16,7 +16,9 @@ defmodule SpaceAgeApiWeb.DiscordController do
       "name" => "sa"
     },
   }) do
-    render(conn, "discord.json", type: 2)
+    render(conn, "discord.json", type: 4, data: %{
+      "content" => "The operation is #{operation} and the user id is #{user_id}"
+    })
   end
 
   def handle_interaction(conn, 2, _data) do
