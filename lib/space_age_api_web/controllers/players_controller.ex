@@ -111,6 +111,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
 
         jwt = SpaceAgeApi.Token.generate_and_sign!(%{
             sub: player.steamid,
+            aud: "https://spaceage.mp/v2/clientauth",
             server: server.name,
             faction_name: player.faction_name,
             is_faction_leader: player.is_faction_leader,
