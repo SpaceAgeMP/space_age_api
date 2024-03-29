@@ -2,7 +2,5 @@
 
 set -e
 
-mix local.hex --force
-mix deps.get
-mix local.rebar --force
+./build.sh
 mix credo --strict

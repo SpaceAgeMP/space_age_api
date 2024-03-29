@@ -2,8 +2,8 @@ name: Build and lint
 on: [push]
 
 jobs:
-  build:
-    name: Build
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -26,4 +26,4 @@ jobs:
           tags: |
             spaceage_api_dev
       - name: Run lint.sh in dev container
-        run: docker run -it --rm spaceage_api_dev ./lint.sh
+        run: docker run -i --rm spaceage_api_dev ./lint.sh
