@@ -34,22 +34,29 @@ defmodule SpaceAgeApiWeb.DiscordController do
       [timestamp | _] = get_req_header(conn, "x-signature-timestamp")
       [signature | _] = get_req_header(conn, "x-signature-ed25519")
 
-      raw_body = SpaceAgeApi.Plug.RawBodyReader.get_raw_body(conn)
-
-      verified = :crypto.verify(
-                      :eddsa,
-                      :sha256,
-                      "#{timestamp}#{raw_body}",
-                      Base.decode16!(signature, case: :mixed),
-                      [Application.fetch_env!(:space_age_api, :discord_public_key), :ed25519]
-                  )
-
-      if verified do
-        handle_interaction(conn, params["type"], params)
-      else
+      current_time = System.system_time(:second)
+      if abs(current_time - timestamp) > 60 do
         conn
-        |> send_resp(401, "Unauthorized")
+        |> send_resp(403, "Timestamp too old")
         |> halt
+      else
+        raw_body = SpaceAgeApi.Plug.RawBodyReader.get_raw_body(conn)
+
+        verified = :crypto.verify(
+                        :eddsa,
+                        :sha256,
+                        "#{timestamp}#{raw_body}",
+                        Base.decode16!(signature, case: :mixed),
+                        [Application.fetch_env!(:space_age_api, :discord_public_key), :ed25519]
+                    )
+
+        if verified do
+          handle_interaction(conn, params["type"], params)
+        else
+          conn
+          |> send_resp(401, "Unauthorized")
+          |> halt
+        end
       end
   end
 end
