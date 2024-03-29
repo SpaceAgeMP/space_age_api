@@ -2,6 +2,8 @@ defmodule SpaceAgeApiWeb.DiscordController do
   @moduledoc false
   use SpaceAgeApiWeb, :controller
 
+  @public_key Application.compile_env(:space_age_api, [__MODULE__, :discord_public_key])
+
   def handle_interaction(conn, 1, _data) do
     render(conn, "discord.json", type: 1)
   end
@@ -37,7 +39,7 @@ defmodule SpaceAgeApiWeb.DiscordController do
       current_time = System.system_time(:second)
       if abs(current_time - String.to_integer(timestamp)) > 60 do
         conn
-        |> send_resp(403, "Timestamp too old")
+        |> send_resp(403, "Timestamp invalid")
         |> halt
       else
         raw_body = SpaceAgeApi.Plug.RawBodyReader.get_raw_body(conn)
@@ -47,7 +49,7 @@ defmodule SpaceAgeApiWeb.DiscordController do
                         :sha256,
                         "#{timestamp}#{raw_body}",
                         Base.decode16!(signature, case: :mixed),
-                        [Application.fetch_env!(:space_age_api, :discord_public_key), :ed25519]
+                        [@public_key, :ed25519]
                     )
 
         if verified do

@@ -7,6 +7,8 @@ defmodule SpaceAgeApiWeb.ServersView do
     alias SpaceAgeApi.Repo
     import Ecto.Query
 
+    @sentry_dsn_srcds Application.compile_env(:space_age_api, [__MODULE__, :sentry_dsn_srcds])
+
     def render("multi_with_config.json", %{servers: servers}) do
         Enum.map(servers, &server_public_with_config/1)
     end
@@ -56,7 +58,7 @@ defmodule SpaceAgeApiWeb.ServersView do
             location: server.location,
             rcon_password: server.rcon_password,
             steam_account_token: server.steam_account_token,
-            sentry_dsn: Application.fetch_env!(:space_age_api, :sentry_dsn_srcds),
+            sentry_dsn: @sentry_dsn_srcds,
         }
     end
 
