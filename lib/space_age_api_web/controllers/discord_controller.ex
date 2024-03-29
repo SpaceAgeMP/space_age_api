@@ -26,7 +26,7 @@ defmodule SpaceAgeApiWeb.DiscordController do
                       :eddsa,
                       :sha256,
                       "#{timestamp}#{conn.assigns[:raw_body]}",
-                      Integer.parse(signature, 16),
+                      Base.decode16!(signature),
                       [Application.fetch_env!(:space_age_api, :discord_public_key), :ed25519]
                   )
 
