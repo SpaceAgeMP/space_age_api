@@ -5,6 +5,12 @@ RUN apk --no-cache add curl
 RUN mkdir -p /home/api/app
 WORKDIR /home/api/app
 
+
+FROM base AS dev
+
+ENTRYPOINT [ "/bin/sh" ]
+
+
 FROM base AS default
 RUN adduser -D api
 
@@ -15,7 +21,3 @@ ENV MIX_ENV=prod
 RUN ./build.sh
 
 ENTRYPOINT [ "sh", "/home/api/app/run.sh" ]
-
-FROM base AS dev
-
-ENTRYPOINT [ "/bin/sh" ]
