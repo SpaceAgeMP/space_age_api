@@ -15,6 +15,7 @@ defmodule SpaceAgeApiWeb.Router do
     get "/players/:steamid/full", PlayersController, :get_full
     put "/players/:steamid", PlayersController, :upsert
     post "/players/:steamid/jwt", PlayersController, :make_jwt
+    post "/players/:steamid/discordlink", PlayersController, :make_discordlink_jwt
     post "/players/:steamid/ban", PlayersController, :ban
 
     get "/factions", FactionsController, :list

@@ -46,6 +46,7 @@ defmodule SpaceAgeApiWeb.PlayersView do
             is_banned: player.is_banned,
             ban_reason: player.ban_reason,
             banned_by: player.banned_by,
+            discord_user_id: player.discord_user_id,
         }
     end
 

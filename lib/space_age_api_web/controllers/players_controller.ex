@@ -8,7 +8,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
 
     plug SpaceAgeApi.Plug.Authenticate,
             [allow_server: true, allow_client: true, require_steamid: true]
-            when action in [:get_full]
+            when action in [:get_full, :make_discordlink_jwt]
     plug SpaceAgeApi.Plug.Authenticate, [allow_server: true] when action in [:upsert, :ban, :make_jwt]
     plug SpaceAgeApi.Plug.Cache when action in [:list, :get]
     plug SpaceAgeApi.Plug.Cache, [time: 5] when action in [:list_banned]
@@ -38,7 +38,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
 
     def upsert(conn, params) do
         steamid = params["steamid"]
-        player_db = get_single(steamid)
+        player_db = Player.get_single(steamid)
         changeset = upsert_changeset(player_db, params)
         changeset_perform_upsert_by_steamid(conn, changeset)
     end
@@ -55,7 +55,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
         ban_reason = params["ban_reason"]
         banned_by = params["banned_by"]
 
-        player = get_single(steamid)
+        player = Player.get_single(steamid)
         if player do
             changeset = Player.changeset(player, %{
                 is_banned: true,
@@ -72,7 +72,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
 
     def make_jwt(conn, params) do
         steamid = params["steamid"]
-        player = get_single(steamid, [:steamid, :faction_name, :is_faction_leader])
+        player = Player.get_single(steamid, [:steamid, :faction_name, :is_faction_leader])
         if player do
             make_jwt_internal(conn, player)
         else
@@ -84,36 +84,33 @@ defmodule SpaceAgeApiWeb.PlayersController do
         end
     end
 
+    def make_discordlink_jwt(conn, params) do
+        steamid = params["steamid"]
+        make_jwt_internal(conn, %{
+            steamid: steamid,
+            faction_name: "",
+            is_faction_leader: false,
+        }, "https://api.spaceage.mp/v2/jwt/discordlink", 5 * 60)
+    end
+
     defp get_single_show(conn, params, template, select \\ nil) do
         steamid = params["steamid"]
-        player = get_single(steamid, select)
+        player = Player.get_single(steamid, select)
         single_or_404(conn, template, player)
     end
 
-    defp build_query(steamid, select) do
-        query = from p in Player,
-            where: p.steamid == ^steamid
-        if select do
-            query
-            |> select(^select)
-        else
-            query
-        end
-    end
-
-    defp get_single(steamid, select \\ nil) do
-        Repo.one(build_query(steamid, select))
-    end
-
     defp make_jwt_internal(conn, player) do
-        valid_time = SpaceAgeApi.Token.default_exp()
+        make_jwt_internal(conn, player,  "https://api.spaceage.mp/v2/jwt/clientauth", SpaceAgeApi.Token.default_exp())
+    end
+
+    defp make_jwt_internal(conn, player, aud, valid_time) do
         expiry = System.system_time(:second) + valid_time
 
         server = conn.assigns[:auth_server]
 
         jwt = SpaceAgeApi.Token.generate_and_sign!(%{
             sub: player.steamid,
-            aud: "https://api.spaceage.mp/v2/clientauth",
+            aud: aud,
             server: server.name,
             faction_name: player.faction_name,
             is_faction_leader: player.is_faction_leader,

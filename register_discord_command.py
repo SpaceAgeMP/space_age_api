@@ -8,25 +8,15 @@ url = f"https://discord.com/api/v10/applications/{APP_ID}/commands"
 
 # This is an example CHAT_INPUT or Slash Command, with a type of 1
 json = {
-    "name": "sa",
+    "name": "salink",
     "type": 1,
-    "description": "Commands for interacting with SpaceAge",
+    "description": "Link SpaceAge to Discord",
     "options": [
         {
-            "name": "operation",
-            "description": "What to do",
+            "name": "code",
+            "description": "Link code. Use ""unlink"" unlink any existing account",
             "type": 3,
-            "required": True,
-            "choices": [
-                {
-                    "name": "link",
-                    "value": "link"
-                },
-                {
-                    "name": "unlink",
-                    "value": "unlink"
-                }
-            ]
+            "required": True
         }
     ]
 }

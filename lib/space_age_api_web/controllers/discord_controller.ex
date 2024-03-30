@@ -1,37 +1,86 @@
 defmodule SpaceAgeApiWeb.DiscordController do
   @moduledoc false
+  import Ecto.Query
+
   use SpaceAgeApiWeb, :controller
+  alias SpaceAgeApi.Models.Player
   alias SpaceAgeApi.Plug.RawBodyReader
 
-  def handle_interaction(conn, 1, _data) do
+  defp handle_interaction(conn, 1, _data) do
     render(conn, "discord.json", type: 1)
   end
 
-  def handle_interaction(conn, 2, %{
+  defp handle_interaction(conn, 2, %{
     "member" => %{"user" => %{"id" => user_id}},
     "data" => %{
       "options" => [
         %{"name" => "operation", "value" => operation},
       ],
-      "name" => "sa"
+      "name" => "salink"
     },
   }) do
+    handle_salink_slash_command(conn, operation, "#{user_id}")
     render(conn, "discord.json", type: 4, data: %{
       "content" => "The operation is #{operation} and the user id is #{user_id}",
       "flags" => 64
     })
   end
 
-  def handle_interaction(conn, 2, _data) do
+  defp handle_interaction(conn, 2, _data) do
     conn
     |> send_resp(400, "Unhandled command or invalid parameters")
     |> halt
   end
 
-  def handle_interaction(conn, type, _data) do
+  defp handle_interaction(conn, type, _data) do
     conn
     |> send_resp(400, "Bad type: #{type}")
     |> halt
+  end
+
+  defp handle_salink_slash_command(conn, "unlink", user_id) do
+    query = from p in Player,
+      where: p.discord_user_id == ^user_id
+    player = Repo.one(query)
+    set_player_discord_user_id(conn, player, nil)
+    render(conn, "discord.json", type: 4, data: %{
+      "content" => "If your Discord account was linked to any Steam account, it has been unlinked.",
+      "flags" => 64
+    })
+  end
+  defp handle_salink_slash_command(conn, code, user_id) do
+    {ok, claims} = SpaceAgeApi.Token.verify_and_validate(code)
+    if ok == :ok and claims["aud"] == "https://api.spaceage.mp/v2/jwt/discordlink" do
+      steamid = claims["sub"]
+      player = Player.get_single(steamid)
+      player_ok = set_player_discord_user_id(conn, player, user_id)
+      if player_ok == :ok do
+        render(conn, "discord.json", type: 4, data: %{
+          "content" => "Your Discord account has successfully been linked to #{steamid}",
+          "flags" => 64
+        })
+      else
+        conn
+        |> send_resp(500, "Failed to link (not found?!)")
+        |> halt
+      end
+    else
+      render(conn, "discord.json", type: 4, data: %{
+        "content" => "Your linking token was invalid or expired",
+        "flags" => 64
+      })
+    end
+  end
+
+  defp set_player_discord_user_id(_conn, nil, _user_id) do
+    :not_found
+  end
+  defp set_player_discord_user_id(conn, player, user_id) do
+    changeset = Player.changeset(player, %{
+      discord_user_id: user_id,
+    })
+    changeset_perform_upsert_by_steamid(conn, changeset)
+    :ok
   end
 
   def interaction(conn, params) do
