@@ -43,12 +43,18 @@ defmodule SpaceAgeApiWeb do
       def changeset_perform_insert(conn, changeset, response \\ true, opts \\ nil) do
         if changeset.valid? do
           res = Repo.insert!(changeset, opts)
-          single_or_404(conn, "single.json", res)
+          if response do
+            single_or_404(conn, "single.json", res)
+          else
+            :ok
+          end
         else
           if response do
             conn
             |> put_status(400)
             |> json(%{errors: Util.parse_changeset_errors(changeset)})
+          else
+            :changeset_invalid
           end
         end
       end
