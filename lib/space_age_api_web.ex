@@ -36,18 +36,20 @@ defmodule SpaceAgeApiWeb do
           render(conn, template, data: data)
       end
 
-      def changeset_perform_upsert_by_steamid(conn, changeset) do
-        changeset_perform_insert(conn, changeset, on_conflict: {:replace_all_except, [:steamid, :inserted_at]})
+      def changeset_perform_upsert_by_steamid(conn, changeset, response \\ true) do
+        changeset_perform_insert(conn, changeset, response, on_conflict: {:replace_all_except, [:steamid, :inserted_at]})
       end
 
-      def changeset_perform_insert(conn, changeset, opts \\ nil) do
+      def changeset_perform_insert(conn, changeset, response \\ true, opts \\ nil) do
         if changeset.valid? do
           res = Repo.insert!(changeset, opts)
           single_or_404(conn, "single.json", res)
         else
-          conn
-          |> put_status(400)
-          |> json(%{errors: Util.parse_changeset_errors(changeset)})
+          if response do
+            conn
+            |> put_status(400)
+            |> json(%{errors: Util.parse_changeset_errors(changeset)})
+          end
         end
       end
     end

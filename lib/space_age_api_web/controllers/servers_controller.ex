@@ -49,6 +49,6 @@ defmodule SpaceAgeApiWeb.ServersController do
         server = Server.changeset(%Server{
             name: server_config.name,
         }, Util.map_decimal_to_integer(params))
-        changeset_perform_insert(conn, server, on_conflict: {:replace_all_except, [:name, :inserted_at]})
+        changeset_perform_insert(conn, server, true, on_conflict: {:replace_all_except, [:name, :inserted_at]})
     end
 end

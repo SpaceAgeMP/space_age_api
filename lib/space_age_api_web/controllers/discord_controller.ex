@@ -75,7 +75,7 @@ defmodule SpaceAgeApiWeb.DiscordController do
     changeset = Player.changeset(player, %{
       discord_user_id: user_id,
     })
-    changeset_perform_upsert_by_steamid(conn, changeset)
+    changeset_perform_upsert_by_steamid(conn, changeset, false)
     :ok
   end
 
