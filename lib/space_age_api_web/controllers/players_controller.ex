@@ -86,11 +86,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
 
     def make_discordlink_jwt(conn, params) do
         steamid = params["steamid"]
-        make_jwt_internal(conn, %{
-            steamid: steamid,
-            faction_name: "",
-            is_faction_leader: false,
-        }, "https://api.spaceage.mp/v2/jwt/discordlink", 5 * 60)
+        make_jwt_minimal_internal(conn, steamid, "https://api.spaceage.mp/v2/jwt/discordlink", 5 * 60)
     end
 
     defp get_single_show(conn, params, template, select \\ nil) do
@@ -99,18 +95,31 @@ defmodule SpaceAgeApiWeb.PlayersController do
         single_or_404(conn, template, player)
     end
 
-    defp make_jwt_internal(conn, player) do
-        make_jwt_internal(conn, player,  "https://api.spaceage.mp/v2/jwt/clientauth", SpaceAgeApi.Token.default_exp())
+    defp make_jwt_minimal_internal(conn, steamid, aud, valid_time) do
+        expiry = System.system_time(:second) + valid_time
+
+        jwt = SpaceAgeApi.Token.generate_and_sign!(%{
+            sub: steamid,
+            aud: aud,
+        })
+
+        single_or_404(conn, "jwt_minimal.json", %{
+            token: jwt,
+            expiry: expiry,
+            valid_time: valid_time,
+            steamid: player.steamid,
+        })
     end
 
-    defp make_jwt_internal(conn, player, aud, valid_time) do
+    defp make_jwt_internal(conn, player) do
+        valid_time = SpaceAgeApi.Token.default_exp()
         expiry = System.system_time(:second) + valid_time
 
         server = conn.assigns[:auth_server]
 
         jwt = SpaceAgeApi.Token.generate_and_sign!(%{
             sub: player.steamid,
-            aud: aud,
+            aud: "https://api.spaceage.mp/v2/jwt/clientauth",
             server: server.name,
             faction_name: player.faction_name,
             is_faction_leader: player.is_faction_leader,
