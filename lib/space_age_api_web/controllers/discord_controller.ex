@@ -14,16 +14,12 @@ defmodule SpaceAgeApiWeb.DiscordController do
     "member" => %{"user" => %{"id" => user_id}},
     "data" => %{
       "options" => [
-        %{"name" => "operation", "value" => operation},
+        %{"name" => "code", "value" => code},
       ],
       "name" => "salink"
     },
   }) do
-    handle_salink_slash_command(conn, operation, "#{user_id}")
-    render(conn, "discord.json", type: 4, data: %{
-      "content" => "The operation is #{operation} and the user id is #{user_id}",
-      "flags" => 64
-    })
+    handle_salink_slash_command(conn, code, "#{user_id}")
   end
 
   defp handle_interaction(conn, 2, _data) do
