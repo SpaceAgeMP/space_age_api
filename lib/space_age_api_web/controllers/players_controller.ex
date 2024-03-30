@@ -107,7 +107,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
             token: jwt,
             expiry: expiry,
             valid_time: valid_time,
-            steamid: player.steamid,
+            steamid: steamid,
         })
     end
 
