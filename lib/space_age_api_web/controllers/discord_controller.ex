@@ -45,8 +45,8 @@ defmodule SpaceAgeApiWeb.DiscordController do
     })
   end
   defp handle_salink_slash_command(conn, code, user_id) do
-    {ok, claims} = SpaceAgeApi.Token.verify_and_validate(code)
-    if ok == :ok and claims["aud"] == "https://api.spaceage.mp/v2/jwt/discordlink" do
+    {ok, claims} = SpaceAgeApi.DiscordLinkToken.verify_and_validate(code)
+    if ok == :ok do
       steamid = claims["sub"]
       player = Player.get_single(steamid)
       player_ok = set_player_discord_user_id(conn, player, user_id)
