@@ -101,6 +101,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
         jwt = SpaceAgeApi.Token.generate_and_sign!(%{
             sub: steamid,
             aud: aud,
+            exp: expiry,
         })
 
         single_or_404(conn, "jwt_minimal.json", %{
@@ -120,6 +121,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
         jwt = SpaceAgeApi.Token.generate_and_sign!(%{
             sub: player.steamid,
             aud: "https://api.spaceage.mp/v2/jwt/clientauth",
+            exp: expiry,
             server: server.name,
             faction_name: player.faction_name,
             is_faction_leader: player.is_faction_leader,
