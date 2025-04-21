@@ -32,7 +32,7 @@ defmodule SpaceAgeApiWeb.ServersView do
             hidden: server.hidden,
             ipport: server.ipport,
             link: Server.get_link(server),
-            online: Server.is_online(server),
+            online: Server.online?(server),
         }
     end
 
@@ -46,7 +46,7 @@ defmodule SpaceAgeApiWeb.ServersView do
             hidden: server.hidden,
             ipport: server.ipport,
             link: Server.get_link(server),
-            online: Server.is_online(server),
+            online: Server.online?(server),
         }
     end
 

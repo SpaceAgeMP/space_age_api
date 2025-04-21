@@ -22,7 +22,7 @@ defmodule SpaceAgeApi.Models.Server do
     "steam://connect/#{server.ipport}"
   end
 
-  def is_online(server) do
+  def online?(server) do
     NaiveDateTime.diff(Util.naive_date_time(), server.updated_at) < 30
   end
 
