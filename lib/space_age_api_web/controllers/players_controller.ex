@@ -16,7 +16,7 @@ defmodule SpaceAgeApiWeb.PlayersController do
     def list(conn, _params) do
         render(conn, "multi_public.json", players: Repo.all(from p in Player,
             order_by: [desc: :score],
-            select: [:steamid, :name, :score, :playtime, :faction_name, :is_faction_leader],
+            select: [:steamid, :name, :score, :playtime, :faction_name, :is_faction_leader, :prestige_level],
             where: p.steamid != "STEAM_0:0:0",
             limit: 50))
     end
