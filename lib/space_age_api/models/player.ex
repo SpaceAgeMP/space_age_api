@@ -10,6 +10,7 @@ defmodule SpaceAgeApi.Models.Player do
   @primary_key false
   schema "players" do
     field :advancement_level, :integer
+    field :prestige_level, :integer
     field :credits, :integer
     field :playtime, :integer
     field :faction_name, :string
@@ -44,15 +45,15 @@ defmodule SpaceAgeApi.Models.Player do
   end
 
   def public_fields do
-    [:steamid, :name, :score, :playtime, :faction_name, :is_faction_leader]
+    [:steamid, :name, :score, :playtime, :faction_name, :is_faction_leader, :prestige_level]
   end
 
   @doc false
   def changeset(player, attrs) do
     # credo:disable-for-lines:3
     player
-    |> cast(attrs, [:name, :steamid, :credits, :score, :is_faction_leader, :faction_name, :advancement_level, :research, :playtime, :station_storage, :group, :is_banned, :ban_reason, :banned_by, :discord_user_id])
-    |> validate_required([:name, :steamid, :credits, :score, :is_faction_leader, :faction_name, :advancement_level, :research, :playtime, :station_storage, :group, :is_banned])
+    |> cast(attrs, [:name, :steamid, :credits, :score, :is_faction_leader, :faction_name, :prestige_level, :advancement_level, :research, :playtime, :station_storage, :group, :is_banned, :ban_reason, :banned_by, :discord_user_id])
+    |> validate_required([:name, :steamid, :credits, :score, :is_faction_leader, :faction_name, :prestige_level, :advancement_level, :research, :playtime, :station_storage, :group, :is_banned])
     |> unique_constraint(:discord_user_id)
     |> put_change(:updated_at, Util.naive_date_time())
   end

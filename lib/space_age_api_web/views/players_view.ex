@@ -42,6 +42,7 @@ defmodule SpaceAgeApiWeb.PlayersView do
     def player_all(player) do
         %{
             advancement_level: player.advancement_level,
+            prestige_level: player.prestige_level,
             playtime: player.playtime,
             credits: player.credits,
             faction_name: player.faction_name,
@@ -77,6 +78,7 @@ defmodule SpaceAgeApiWeb.PlayersView do
             score: player.score,
             faction_name: player.faction_name,
             is_faction_leader: player.is_faction_leader,
+            prestige_level: player.prestige_level,
         }
     end
 end
