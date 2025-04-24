@@ -78,7 +78,6 @@ defmodule SpaceAgeApiWeb.PlayersView do
             score: player.score,
             faction_name: player.faction_name,
             is_faction_leader: player.is_faction_leader,
-            prestige_level: player.prestige_level,
         }
     end
 end

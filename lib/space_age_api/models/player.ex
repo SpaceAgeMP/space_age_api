@@ -45,7 +45,7 @@ defmodule SpaceAgeApi.Models.Player do
   end
 
   def public_fields do
-    [:steamid, :name, :score, :playtime, :faction_name, :is_faction_leader, :prestige_level]
+    [:steamid, :name, :score, :playtime, :faction_name, :is_faction_leader]
   end
 
   @doc false
