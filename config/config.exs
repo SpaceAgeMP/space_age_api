@@ -14,6 +14,7 @@ config :space_age_api,
 # Configures the endpoint
 config :space_age_api, SpaceAgeApiWeb.Endpoint,
   url: [host: "localhost"],
+  server: true,
   secret_key_base: "UoGzGzlE1NoIwH2K/ztS6C2lo+pIsTT0dtbCUJW3A3uQuKMjsNhNRu2buRWNtkMH",
   render_errors: [view: SpaceAgeApiWeb.ErrorView, accepts: ~w(json)]
 
