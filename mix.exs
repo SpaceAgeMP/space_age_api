@@ -48,6 +48,7 @@ defmodule SpaceAgeApi.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:credo, "~> 1.1", only: :dev},
+      {:cors_plug, "~> 3.0"},
     ]
   end
 

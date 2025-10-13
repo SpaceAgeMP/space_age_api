@@ -10,6 +10,11 @@ defmodule SpaceAgeApiWeb.Endpoint do
     plug Phoenix.CodeReloader
   end
 
+  plug CORSPlug,
+    origin: ["*"],
+    methods: ["GET", "HEAD"],
+    headers: ["Client-ID"]
+
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
