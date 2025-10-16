@@ -15,4 +15,5 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: latest
+          elixir-version: latest
       - run: ./lint.sh
