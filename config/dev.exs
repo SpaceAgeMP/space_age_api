@@ -22,7 +22,7 @@ config :space_age_api, SpaceAgeApiWeb.Endpoint,
   check_origin: false,
   watchers: []
 
-config :logger, level: :debug
+config :logger, level: :info
 
 # ## SSL Support
 #
