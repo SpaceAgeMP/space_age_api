@@ -22,6 +22,8 @@ config :space_age_api, SpaceAgeApiWeb.Endpoint,
   check_origin: false,
   watchers: []
 
+config :logger, level: :info
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

@@ -13,7 +13,7 @@ config :space_age_api, SpaceAgeApiWeb.Endpoint,
   url: [host: "api.spaceage.mp", port: 443]
 
 # Do not print debug messages in production
-config :logger, level: :warn
+config :logger, level: :warning
 
 config :sentry,
   environment_name: :prod,
