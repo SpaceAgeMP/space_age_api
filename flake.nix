@@ -14,7 +14,7 @@
         mixFodDeps = pkgs.beamPackages.fetchMixDeps ({
           inherit src version;
           pname = "mix-deps-${pname}";
-          hash = "sha256-wrEMgQYcDYUv/LrLf+GLG0MbSMYKY+Q1ESpnyovhblA=";
+          hash = "sha256-WrHFvoazkrFmqOQeCs45XPEwNMLLJs+EXl4icCxN9Z4=";
         });
 
         package = pkgs.beamPackages.mixRelease ({
